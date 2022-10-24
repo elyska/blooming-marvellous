@@ -12,8 +12,8 @@ def plants():
 	plant_list = Plants.query.order_by(desc("id"))
 	plants = []
 	
-	for palnt in plant_list:
-		plants.append({'name' : movie.name, 'sowInstructions' : movie.sowInstructions})
+	for plant in plant_list:
+		plants.append({'name' : plant.name, 'sowInstructions' : plant.sowInstructions})
 
 
 	return jsonify ({'plants': plants})
