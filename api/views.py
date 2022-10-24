@@ -9,11 +9,11 @@ CORS(main, supports_credentials=True)
 
 @main.route('/plants')
 def plants():
-	plant_list = Plants.query.order_by(desc("id"))
+	plant_list = Plants.query.all()
 	plants = []
 	
 	for plant in plant_list:
-		plants.append({'name' : plant.name, 'sowInstructions' : plant.sowInstructions})
+		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName})
 
 
-	return jsonify ({'plants': plants})
+	return jsonify({'plants': plants})
