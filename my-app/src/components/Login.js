@@ -3,7 +3,7 @@
 function Login() {
     return (
         <article>
-            <h2>Log in</h2>
+            <h1>Log in</h1>
         </article>
     );
 }

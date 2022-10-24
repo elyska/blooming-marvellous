@@ -2,8 +2,8 @@
 
 import { Link } from "react-router-dom";
 import React, {useState} from 'react';
-import styled from 'styled-components'
-import logo from './logo.png';
+import styled from 'styled-components';
+//import logo from './logo.png';
 import colours from '../colours.js';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -15,22 +15,29 @@ const Nav = styled.nav`
     text-align: left;
 `;
 const LargeNav = styled.header`
-    
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: white;
 
-    @media (min-width: 515px) {
+    @media (min-width: 545px) {
         display: block;
     }
-    @media (max-width: 515px) {
+    @media (max-width: 545px) {
         display: none;
     }
 `;
 const SmallNav = styled.header`
     
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: white;
 
-    @media (min-width: 515px) {
+    @media (min-width: 545px) {
         display: none;
     }
-    @media (max-width: 515px) {
+    @media (max-width: 545px) {
         display: block;
     }
 `;
@@ -91,7 +98,7 @@ function Navbar() {
         <LargeNav>
         <Nav>
             <Left>
-                <Link to="/"><Logo src={logo} alt='logo' /></Link>
+                <Link to="/"><Logo src="/images/logo.png" alt='logo' /></Link>
                 <Link to="/"><NavItem>Home</NavItem></Link>
                 <Link to="all-plants"><NavItem>All Plants</NavItem></Link>
             </Left>
@@ -104,7 +111,7 @@ function Navbar() {
         <SmallNav>
         <Nav>
             <Left>
-                <Link to="/"><Logo src={logo} alt='logo' /></Link>
+                <Link to="/"><Logo src="/images/logo.png" alt='logo' /></Link>
             </Left>
             <Right>
                 <NavItem>

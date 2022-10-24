@@ -3,7 +3,7 @@
 function AllPlants() {
     return (
         <article>
-            <h2>All Plants</h2>
+            <h1>All Plants</h1>
         </article>
     );
 }

@@ -1,30 +1,46 @@
 
-import React, {useEffect, useState, Component} from 'react';
+//import React, {useEffect, useState} from 'react';
 import './App.css';
-import { Routes , Route, Link } from 'react-router-dom';
+import { Routes , Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import AllPlants from './components/AllPlants';
 import Login from './components/Login';
 
-import styled, { createGlobalStyle } from 'styled-components'; 
+import { createGlobalStyle } from 'styled-components'; 
 import colours from './colours.js';
 
 const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
-		color: ${colours.typeface}
+		color: ${colours.typeface};
+		background: ${colours.background};
+		
     }
 	a {
 		color: ${colours.typeface};
 		text-decoration: none;
     }
+	article {
+		padding-top: 70px;
+		padding-bottom: 70px;
+		font-size: 25px;
+	}
+
+	h1, h2, h3 {
+		color: ${colours.pink};
+		font-family: "Montserrat Bold";
+	}
+
+	h1 {
+        font-size: 4rem;
+	}
 `;
 
-class App extends Component {
-  render() {
+function App() {
+
     return (
 	
 	<div className="App">
@@ -38,6 +54,6 @@ class App extends Component {
     </div>
 
     );
-  }
+
 }
 export default App;
