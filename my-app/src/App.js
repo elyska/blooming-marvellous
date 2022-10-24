@@ -18,7 +18,8 @@ const GlobalStyle = createGlobalStyle`
 		color: ${colours.typeface}
     }
 	a {
-		color: ${colours.typeface}
+		color: ${colours.typeface};
+		text-decoration: none;
     }
 `;
 
