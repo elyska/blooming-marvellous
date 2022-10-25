@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import AllPlants from './components/AllPlants';
 import Login from './components/Login';
+import Register from './components/Register';
 
 import { createGlobalStyle } from 'styled-components'; 
 import colours from './colours.js';
@@ -50,6 +51,7 @@ function App() {
         <Route path="/" element={ <Home/> } />
         <Route path="all-plants" element={ <AllPlants/> } />
         <Route path="login" element={ <Login/> } />
+        <Route path="register" element={ <Register/> } />
       </Routes>
     </div>
 

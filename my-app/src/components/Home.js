@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components'; 
 import colours from '../colours.js';
 import { Link } from "react-router-dom";
+import Button from './Button';
 
 const GlobalStyle = createGlobalStyle`
     
@@ -37,18 +38,6 @@ const Paragraph = styled.p`
         font-size: 18px !important;
     }
 `;
-const Button = styled.a`
-    background: ${colours.pink};
-    color: white;
-    padding: 10px 30px;
-    border-radius: 5px;
-    transition: all 0.2s;
-    
-    &:hover {
-        background: ${colours.pinkDarker};
-    }
-`;
-
 function Home() {
     return (
         <Article>
@@ -59,7 +48,7 @@ function Home() {
                 Access care instructions, culinary tips, get reminders to water your plants and much more
             </Paragraph>
 
-            <Link to="/login"><Button>Get started</Button></Link>
+            <Link to="/login"><Button buttonText="Get started" /></Link>
             
         </Article>
     );
