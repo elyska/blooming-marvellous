@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 
 const Nav = styled.nav`
-    box-shadow: 0px 0px 5px 0px grey;
+    box-shadow: 0px 0px 8px -2px grey;
     padding: 10px 30px;
     text-align: left;
 `;

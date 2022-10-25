@@ -15,7 +15,6 @@ function Register() {
         <article>
             <h1>Register</h1>
 
-            
             <form>
                 
                 <TextInput inputId="username" inputLabel="Username" inputType="text" /><br />

@@ -11,9 +11,14 @@ CORS(main, supports_credentials=True)
 def plants():
 	plant_list = Plants.query.all()
 	plants = []
-	
+
 	for plant in plant_list:
-		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName})
+		image = ""
+		if plant.image != None: 
+			image = plant.image.split(";")[0]
+			if image[-8:] == "/150/150": 
+				image = image[0:-8] + "/600/600"
+		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName, 'image': image})
 
 
 	return jsonify({'plants': plants})

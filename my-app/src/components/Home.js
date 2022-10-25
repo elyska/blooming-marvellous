@@ -8,12 +8,6 @@ import Button from './Button';
 
 const GlobalStyle = createGlobalStyle`
     
-
-    @media (max-width: 700px) {
-        h1 {
-            font-size: 3rem !important;
-        }
-    }
     @media (min-width: 1135px) {
         body {
             background: url("/images/bg.png") !important;

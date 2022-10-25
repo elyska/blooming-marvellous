@@ -25,9 +25,11 @@ const GlobalStyle = createGlobalStyle`
 		text-decoration: none;
     }
 	article {
-		padding-top: 70px;
+		padding-top: 80px;
 		padding-bottom: 70px;
 		font-size: 25px;
+		width: 90%;
+		margin: auto;
 	}
 
 	h1, h2, h3 {
@@ -37,6 +39,9 @@ const GlobalStyle = createGlobalStyle`
 
 	h1 {
         font-size: 4rem;
+		@media (max-width: 700px) {
+        	font-size: 3rem;
+    	}
 	}
 `;
 
