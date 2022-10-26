@@ -59,7 +59,7 @@ function App() {
         <Route path="all-plants" element={ <AllPlants/> } />
         <Route path="login" element={ <Login/> } />
         <Route path="register" element={ <Register/> } />
-        <Route path="/plant/:name" element={ <PlantDetail/> } />
+        <Route path="plant/:name" exact element={ <PlantDetail/> } />
       </Routes>
     </div>
 

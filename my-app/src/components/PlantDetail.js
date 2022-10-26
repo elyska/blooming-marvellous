@@ -3,9 +3,9 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import parse from 'html-react-parser';
-import {useParams} from "react-router-dom";
 import PlantDetailParagraph from './PlantDetailParagraph';
 import RecommendedPlant from './RecommendedPlant';
+import { Link, useParams} from "react-router-dom";
 
 const Article = styled.article`
     text-align: left;
@@ -49,8 +49,15 @@ const RightSection = styled.section`
     padding-top: 40px;
 `;
 
+const RecommendedContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+`;
+
+
 function PlantDetail() {
-    const { name } = useParams();
+    let { name } = useParams();
     const [plantDetail, setPlantDetail] = useState([]);
 
 	useEffect(()=> {
@@ -60,11 +67,11 @@ function PlantDetail() {
 			.then(data => {setPlantDetail(data.plants);
 			})
 		);
-	},[]);
+	},[name]);
 
     const parse = require('html-react-parser');
-    console.log(plantDetail.compatibleWithImage)
-    
+
+
     return (
         <Article>
             <LeftSection>
@@ -89,11 +96,13 @@ function PlantDetail() {
                 }
                 <Heading2>Recommended Plants</Heading2>
 
-                <p>Other recommended plants: {plantDetail.compatibleWithoutImage}</p>
+                <RecommendedContainer>
+                    {plantDetail.compatibleWithImage != undefined ? plantDetail.compatibleWithImage.map(
+                        recommended => <RecommendedPlant styles={{margin: "10px"}} plant={recommended}/>
+                    ) : ""}
+                </RecommendedContainer>
                 
-                {plantDetail.compatibleWithImage != undefined ? plantDetail.compatibleWithImage.map(
-                    recommended => <RecommendedPlant plant={recommended}/>
-                ) : ""}
+                
 
             </RightSection>
             
