@@ -9,10 +9,11 @@ CORS(main, supports_credentials=True)
 
 @main.route('/plants')
 def plants():
-	plant_list = Plants.query.all()
+	plantList = Plants.query.all()
 	plants = []
 
-	for plant in plant_list:
+	for plant in plantList:
+		# get the first image
 		image = ""
 		if plant.image != None: 
 			image = plant.image.split(";")[0]
@@ -22,3 +23,30 @@ def plants():
 
 
 	return jsonify({'plants': plants})
+
+@main.route('/plant/<name>')
+def plantDetail(name):
+	print(name)
+	plant = Plants.query.filter_by(name=name).first()
+	# get the first image
+	image = ""
+	if plant.image != None: 
+		image = plant.image.split(";")[0]
+		if image[-8:] == "/150/150": 
+			image = image[0:-8] + "/600/600"
+	plantDetail = {
+		'id' : plant.id, 
+		'name' : plant.name, 
+		'alternateName' : plant.alternateName, 
+		'image': image,
+		'sowInstructions' : plant.sowInstructions,
+    	'spaceInstructions' : plant.spaceInstructions,
+    	'harvestInstructions' : plant.harvestInstructions,
+    	'compatiblePlants' : plant.compatiblePlants,
+    	'avoidInstructions' : plant.avoidInstructions,
+    	'culinaryHints' : plant.culinaryHints,
+    	'culinaryPreservation' : plant.culinaryPreservation,
+    	'wateringInterval' : plant.wateringInterval,
+	}
+
+	return jsonify({'plants': plantDetail})

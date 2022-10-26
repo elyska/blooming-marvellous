@@ -22,8 +22,6 @@ function AllPlants() {
 		);
 	},[]);
 
-    console.log(plants)
-
     return (
         <Article>
             <SearchBar/>

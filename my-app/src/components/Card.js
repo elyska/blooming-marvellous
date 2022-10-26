@@ -4,13 +4,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import colours from '../colours.js';
 import TextButton from './TextButton';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
     root: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function PlantCard({ image, name, alternateName }) {
+export default function PlantCard({ image, name, alternateName, plantId }) {
   const classes = useStyles();
 
   return (
@@ -71,7 +71,7 @@ export default function PlantCard({ image, name, alternateName }) {
         </CardContent>
       
       <CardActions>
-        <TextButton buttonText="Learn More" />
+        <Link to={`/plant/${name}`}><TextButton buttonText="Learn More" /></Link>
       </CardActions>
     </Card>
   );

@@ -27,6 +27,7 @@ function Plants({ plants }) {
                             image={plant.image} 
                             name={plant.name} 
                             alternateName={parse(plant.alternateName)}
+                            plantId={plant.id}
                         />
 					</ListItem>
 					)

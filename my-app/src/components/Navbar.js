@@ -18,7 +18,8 @@ const LargeNav = styled.header`
     position: fixed;
     top: 0;
     width: 100%;
-    background: white;
+    background: white;    
+    z-index: 2;
 
     @media (min-width: 545px) {
         display: block;
@@ -32,7 +33,8 @@ const SmallNav = styled.header`
     position: fixed;
     top: 0;
     width: 100%;
-    background: white;
+    background: white; 
+    z-index: 2;
 
     @media (min-width: 545px) {
         display: none;
@@ -132,8 +134,8 @@ function Navbar() {
 
             <div style={{display: displayValue}}>
                 <Link to="/"><NavItemMobile>Home</NavItemMobile></Link>
-                <Link to="all-plants"><NavItemMobile>All Plants</NavItemMobile></Link>
-                <Link to="login"><NavItemMobile><IconLink><AccountCircleIcon/></IconLink>Log in</NavItemMobile></Link>
+                <Link to="/all-plants"><NavItemMobile>All Plants</NavItemMobile></Link>
+                <Link to="/login"><NavItemMobile><IconLink><AccountCircleIcon/></IconLink>Log in</NavItemMobile></Link>
             </div>
         </Nav>
         </SmallNav>

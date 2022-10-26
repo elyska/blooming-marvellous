@@ -8,6 +8,7 @@ import Home from './components/Home';
 import AllPlants from './components/AllPlants';
 import Login from './components/Login';
 import Register from './components/Register';
+import PlantDetail from './components/PlantDetail';
 
 import { createGlobalStyle } from 'styled-components'; 
 import colours from './colours.js';
@@ -26,10 +27,11 @@ const GlobalStyle = createGlobalStyle`
     }
 	article {
 		padding-top: 80px;
-		padding-bottom: 70px;
+		padding-bottom: 40px;
 		font-size: 25px;
 		width: 90%;
 		margin: auto;
+		text-align: center;
 	}
 
 	h1, h2, h3 {
@@ -57,6 +59,7 @@ function App() {
         <Route path="all-plants" element={ <AllPlants/> } />
         <Route path="login" element={ <Login/> } />
         <Route path="register" element={ <Register/> } />
+        <Route path="/plant/:name" element={ <PlantDetail/> } />
       </Routes>
     </div>
 

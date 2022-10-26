@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
     searchField: {
+        position: "static",
         "& .Mui-focused": {
             border: `2px solid ${colours.pink}`,
             "& .MuiSvgIcon-root": {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
         },
     },
     input: {
+        position: "static",
         background: "white !important",
         color: colours.typeface,
         padding: "10px 20px",
@@ -31,6 +33,7 @@ const useStyles = makeStyles({
         border: `2px solid ${colours.typeface}`,
         "& .MuiFilledInput-input": {
             padding: 0,
+        position: "static",
         },
         "& .Mui-focused": {
         border: `2px solid ${colours.pink}`,
@@ -47,9 +50,8 @@ function SearchBar() {
                 InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon style={{ color: colours.typeface }} /></InputAdornment>),disableUnderline: true,className: classes.input }}
                 placeholder="Browse plants"
                 className={classes.searchField} 
-            variant="filled" 
-                endAdornment={<InputAdornment 
-                position="end" ><SearchIcon /></InputAdornment>}/>
+                variant="filled" 
+            />
 
         </form>
     );
