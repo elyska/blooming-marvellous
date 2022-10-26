@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import parse from 'html-react-parser';
 import {useParams} from "react-router-dom";
 import PlantDetailParagraph from './PlantDetailParagraph';
+import RecommendedPlant from './RecommendedPlant';
 
 const Article = styled.article`
     text-align: left;
@@ -15,6 +16,10 @@ const Article = styled.article`
 const Heading1 = styled.h1`
     font-size: 30px;
     margin: 8px 0;
+`;
+const Heading2 = styled.h2`
+    font-size: 20px;
+    margin: 20px 0 10px 0;
 `;
 const AlternateName = styled.h2`
     font-size: 20px;
@@ -57,14 +62,14 @@ function PlantDetail() {
 		);
 	},[]);
 
-    console.log(plantDetail)
     const parse = require('html-react-parser');
+    console.log(plantDetail.compatibleWithImage)
     
     return (
         <Article>
             <LeftSection>
                 <Heading1>{plantDetail.name}</Heading1>
-                <AlternateName>{ plantDetail.alternateName !="" ? "Also called" +parse(String(plantDetail.alternateName)) : ""}</AlternateName>
+                <AlternateName>{ plantDetail.alternateName !== "" ? "Also called " +parse(String(plantDetail.alternateName)) : ""}</AlternateName>
                 <ImageContainer>
                     <Image src={plantDetail.image} alt={plantDetail.name} />
                 </ImageContainer>
@@ -82,6 +87,14 @@ function PlantDetail() {
                     <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>
                     : ""
                 }
+                <Heading2>Recommended Plants</Heading2>
+
+                <p>Other recommended plants: {plantDetail.compatibleWithoutImage}</p>
+                
+                {plantDetail.compatibleWithImage != undefined ? plantDetail.compatibleWithImage.map(
+                    recommended => <RecommendedPlant plant={recommended}/>
+                ) : ""}
+
             </RightSection>
             
         
