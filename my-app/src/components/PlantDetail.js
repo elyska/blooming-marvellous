@@ -5,13 +5,15 @@ import styled from 'styled-components';
 import parse from 'html-react-parser';
 import PlantDetailParagraph from './PlantDetailParagraph';
 import RecommendedPlant from './RecommendedPlant';
-import { Link, useParams} from "react-router-dom";
+import { useParams} from "react-router-dom";
 
 const Article = styled.article`
     text-align: left;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    
+
 `;
 const Heading1 = styled.h1`
     font-size: 30px;
@@ -39,14 +41,23 @@ const ImageContainer = styled.div`
     border-radius: 5px;
 `;
 const LeftSection = styled.section`
-    width: 50%;
+    width: 45%;
     min-width: 200px;
-    margin-right: 20px;
+    padding-right: 20px;
+
+    @media (max-width: 850px) {
+        width: 100%;
+    }
 `;
 const RightSection = styled.section`
     min-width: 200px;
-    width: 45%;
+    width: 50%;
     padding-top: 40px;
+
+    @media (max-width: 850px) {
+        width: 100%;
+        padding-top: 0;
+    }
 `;
 
 const RecommendedContainer = styled.div`
@@ -69,8 +80,6 @@ function PlantDetail() {
 		);
 	},[name]);
 
-    const parse = require('html-react-parser');
-
 
     return (
         <Article>
@@ -91,14 +100,16 @@ function PlantDetail() {
                 <PlantDetailParagraph heading="Watering" text={`once in ${plantDetail.wateringInterval } days` }/>
                 <PlantDetailParagraph heading="Harvest Instructions" text={plantDetail.harvestInstructions}/>
                 { plantDetail.avoidInstructions ?  
-                    <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>
-                    : ""
+                    <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>: ""
                 }
-                <Heading2>Recommended Plants</Heading2>
+                
 
+                {plantDetail.compatibleWithImage !== undefined && plantDetail.compatibleWithImage.length !==0 ? 
+                    <Heading2>Recommended Plants</Heading2>: ""
+                }
                 <RecommendedContainer>
-                    {plantDetail.compatibleWithImage != undefined ? plantDetail.compatibleWithImage.map(
-                        recommended => <RecommendedPlant styles={{margin: "10px"}} plant={recommended}/>
+                    {plantDetail.compatibleWithImage !== undefined ? plantDetail.compatibleWithImage.map(
+                        recommended => <RecommendedPlant plant={recommended}/>
                     ) : ""}
                 </RecommendedContainer>
                 

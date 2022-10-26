@@ -34,7 +34,8 @@ function PlantDetailParagraph({ heading, text }) {
             <Heading2>{heading}</Heading2>
             <Paragraph>
                 {icons[heading]}
-                {text}
+                
+                { heading == "Avoid" ? "Avoid growing near " : ""} {text}
             </Paragraph>
         </>
     );
