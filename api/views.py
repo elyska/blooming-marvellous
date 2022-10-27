@@ -1,11 +1,22 @@
 from flask import Blueprint, jsonify, request
 from . import db
-from .models import Plants, Users
+from .models import Plants, Users, MyPlants
 from flask_cors import CORS
 from sqlalchemy import desc
 
 main = Blueprint('main', __name__)
 CORS(main, supports_credentials=True)
+
+@main.route('/add-plant', methods=['POST'])
+def addPlant():
+	data = request.get_json()
+	print(data)
+
+	newPlant = MyPlants(plant_id=data["plantId"], username=data['authorised'])
+	db.session.add(newPlant)
+	db.session.commit()
+
+	return 'Done', 201
 
 @main.route('/register', methods=['POST'])
 def register():
@@ -17,8 +28,12 @@ def register():
 
 	newUser = Users(username=userData['username'], password=userData['password'])
 
-	db.session.add(newUser)
-	db.session.commit()
+	try:
+		db.session.add(newUser)
+		db.session.commit()
+	except:
+		return 'Error', 400
+
 
 	return 'Done', 201
 

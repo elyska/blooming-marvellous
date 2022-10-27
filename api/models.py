@@ -19,4 +19,10 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255))
     password = db.Column(db.String(255))
+
+class MyPlants(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255))
+    plant_id = db.Column(db.Integer)
+    reminder = db.Column(db.Integer)
     

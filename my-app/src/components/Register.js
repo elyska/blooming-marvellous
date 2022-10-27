@@ -9,12 +9,16 @@ import SimpleLink from './SimpleLink';
 import colours from '../colours.js';
 import TextInput from './TextInput';
 import { useNavigate} from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 function Register() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordAgain, setPasswordAgain] = useState('');
 	const [passwordError, setPasswordError] = useState(false);
+	const [usernameError, setUsernameError] = useState(false);
+    const [cookies, setCookie] = useCookies(['auth']);
+
 
     const navigate = useNavigate();
 
@@ -33,12 +37,16 @@ function Register() {
 		})
 		console.log(response)
 		if (response.ok){
-			console.log('response worked!')
-            navigate("/login");
+            const date = new Date();
+            date.setDate(date.getDate() + 365);
+            setCookie('auth', username, { path: '/', expires:date });
+            navigate("/my-plants");
 		}
-        else {
-			console.log('response did not work')
+        else if (response.status == 403) {
             setPasswordError(true)
+        }
+        else {
+            setUsernameError(true)
         }
 	}
     return (
@@ -48,6 +56,8 @@ function Register() {
             <form onSubmit={handleSubmit}>
                 
                 <TextInput
+                    error={usernameError}
+                    helperText={ usernameError ? "Username is already taken" : ""}
                     handleInputChange={e => setUsername(e.target.value)} 
                     inputId="username" inputLabel="Username" inputType="text" /><br />
                 <TextInput 
