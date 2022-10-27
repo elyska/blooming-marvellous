@@ -85,33 +85,8 @@ const Left = styled.section`
 const Right = styled.section`
 `;
 
-export default function PlantCard({ image, name, alternateName, plantId, authorised }) {
+export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded }) {
   const classes = useStyles();
-	const [added, setAdded] = useState(false);
-
-  const handleAddPlant = async () => {
-		const data = {plantId, authorised};
-
-    const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/add-plant', {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-		console.log(response)
-		if (response.ok){
-			console.log('response worked!')
-      setAdded(true)
-		}
-    else {
-			console.log('response not worked!')
-    }
-  }
-  const handleRemovePlant = async () => {
-    
-  }
 
   return (
     <Card className={classes.root}>
@@ -138,8 +113,8 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
 
         <Right>
 
-        { authorised != "" && authorised != undefined ?
-          <AddButton plantId={plantId} authorised={authorised} /> : ""
+        { authorised != "" || authorised != undefined ?
+          <AddButton isAdded={isAdded} plantId={plantId} authorised={authorised} /> : ""
         }
         
               

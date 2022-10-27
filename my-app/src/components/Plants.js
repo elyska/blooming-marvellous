@@ -21,6 +21,14 @@ function Plants({ plants }) {
     const parse = require('html-react-parser');
     const [cookies, setCookie] = useCookies(['auth']);
     const authorised = cookies.auth
+    const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
+
+    let plantList = []
+    if(plantCookies.myPlants != undefined) {
+		console.log('plantCookies.myPlants: ' + plantCookies.myPlants)
+        plantList = plantCookies.myPlants.split(", ")
+    }
+    console.log(plantList)
 
     return (
         <List>
@@ -28,6 +36,7 @@ function Plants({ plants }) {
 				return (
 					<ListItem key={plant.id}>
                         <PlantCard 
+                            isAdded={plantList.includes(String(plant.id))}
                             authorised={authorised}
                             image={plant.image} 
                             name={plant.name} 

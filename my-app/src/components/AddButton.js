@@ -54,12 +54,18 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 
-export default function AddButton({ plantId, authorised }) {
+export default function AddButton({ plantId, authorised, isAdded }) {
+
+    const [cookies, setCookie] = useCookies(['myPlants']);
+   
+
     const classes = useStyles();
-	const [added, setAdded] = useState(false);
-    const [cookies, setCookie] = useCookies(['my-plants']);
+	const [added, setAdded] = useState(isAdded);
 
     const handleAddPlant = async () => {
+
+        if (cookies.myPlants != undefined && cookies.myPlants.split(", ").includes(String(plantId))) return;
+
 		const data = {plantId, authorised};
 
         const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/add-plant', {
@@ -74,7 +80,13 @@ export default function AddButton({ plantId, authorised }) {
 		if (response.ok){
 			console.log('response worked!')
             setAdded(true)
-            setCookie
+            // add plants to cookies
+			console.log('cookies.myPlants: ' + cookies.myPlants)
+            if(cookies.myPlants != undefined) 
+            {
+                setCookie('myPlants', cookies.myPlants + ", " + String(plantId))
+            }
+            else setCookie('myPlants', plantId)
 		}
         else {
 			console.log('response not worked!')
