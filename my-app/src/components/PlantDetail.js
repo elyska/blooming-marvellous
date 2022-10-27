@@ -12,8 +12,6 @@ const Article = styled.article`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    
-
 `;
 const Heading1 = styled.h1`
     font-size: 30px;

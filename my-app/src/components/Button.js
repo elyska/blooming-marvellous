@@ -16,6 +16,7 @@ const Btn = styled.button`
     
     &:hover {
         background: ${colours.pinkDarker};
+        cursor: pointer;
     }
 `;
 

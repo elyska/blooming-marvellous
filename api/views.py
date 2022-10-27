@@ -1,15 +1,51 @@
 from flask import Blueprint, jsonify, request
 from . import db
-from .models import Plants
+from .models import Plants, Users
 from flask_cors import CORS
 from sqlalchemy import desc
 
 main = Blueprint('main', __name__)
 CORS(main, supports_credentials=True)
 
+@main.route('/register', methods=['POST'])
+def register():
+	userData = request.get_json()
+	print(userData)
+
+	if userData['password'] != userData['passwordAgain']:
+		return 'Passwords do not match', 403
+
+	newUser = Users(username=userData['username'], password=userData['password'])
+
+	db.session.add(newUser)
+	db.session.commit()
+
+	return 'Done', 201
+
+@main.route('/login', methods=['POST'])
+def login():
+	userData = request.get_json()
+	user = Users.query.filter_by(username=userData['username']).first()
+	
+	if user != None and user.password == userData['password']:
+		print("exists")
+		return 'Done', 201
+	
+	return 'Incorrect password', 403
+
 @main.route('/plants')
 def plants():
-	plantList = Plants.query.all()
+	searchTerm = request.args.get('search', type = str)
+	#plantList = Plants.query.all()
+
+	if searchTerm == None:
+		searchTerm = ""
+
+	print(searchTerm)
+
+	searchTerm = "%{}%".format(searchTerm)
+	plantList = Plants.query.filter(Plants.name.like(searchTerm)).all()
+	
 	plants = []
 
 	for plant in plantList:
@@ -41,9 +77,6 @@ def plantDetail(name):
 	compatibleWithImage = []
 	compatibleWithoutImage = ""
 	for e in compatible:
-		#a = "%{}%".format(e) #not neccessary
-		#plant1 = Plants.query.filter(Plants.name.like(e)).first()
-		#plant1 = Plants.query.all()
 		compatiblePlant = Plants.query.filter_by(name=e.capitalize()).first()
 		compImage = ""
 		if compatiblePlant:

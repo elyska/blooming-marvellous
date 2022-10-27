@@ -23,20 +23,26 @@ const useStyles = makeStyles((theme) => ({
         '& label.Mui-focused': {
             color: colours.pink,
         },
+        '& .MuiFormHelperText-root': {
+            margin: 0,
+        },
+        marginBottom: "20px"
   },
   input: {
         background: "white !important",
         color: colours.typeface,
-        marginBottom: "20px"
   }
 }));
 
-function TextInput({ inputId, inputLabel, inputType }) {
+function TextInput({ error, helperText, inputId, inputLabel, inputType, handleInputChange }) {
 
     const classes = useStyles();
 
     return (
         <TextField 
+            error={error}
+            helperText={helperText}  
+            onChange={handleInputChange}
             className={classes.textField} 
             id={inputId}
             label={inputLabel}

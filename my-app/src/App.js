@@ -9,6 +9,7 @@ import AllPlants from './components/AllPlants';
 import Login from './components/Login';
 import Register from './components/Register';
 import PlantDetail from './components/PlantDetail';
+import MyPlants from './components/MyPlants';
 
 import { createGlobalStyle } from 'styled-components'; 
 import colours from './colours.js';
@@ -60,6 +61,7 @@ function App() {
         <Route path="login" element={ <Login/> } />
         <Route path="register" element={ <Register/> } />
         <Route path="plant/:name" exact element={ <PlantDetail/> } />
+        <Route path="my-plants" exact element={ <MyPlants/> } />
       </Routes>
     </div>
 

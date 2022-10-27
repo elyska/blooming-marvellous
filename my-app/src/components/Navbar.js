@@ -1,13 +1,16 @@
+
 // Navbar.js
 
 import { Link } from "react-router-dom";
 import React, {useState} from 'react';
 import styled from 'styled-components';
-//import logo from './logo.png';
 import colours from '../colours.js';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
+import { useCookies } from 'react-cookie';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { useNavigate} from "react-router-dom";
 
 const Nav = styled.nav`
     box-shadow: 0px 0px 8px -2px grey;
@@ -69,6 +72,7 @@ const NavItem = styled.p`
 
     &:hover {
         color: ${colours.pink};
+        cursor: pointer;
     }
 `;
 
@@ -91,21 +95,42 @@ const IconLink = styled.div`
 
 
 function Navbar() {
+    const navigate = useNavigate();
 
-  const [displayValue, setDisplay] = useState("none");
-  const [menuIconDisplayValue, setMenuIconDisplay] = useState("block");
+    const [displayValue, setDisplay] = useState("none");
+    const [menuIconDisplayValue, setMenuIconDisplay] = useState("block");
+    
+    const [cookies, setCookie, removeCookie] = useCookies(['auth']);
 
-  return (
+    const authorised = cookies.auth
+
+    const handleLogout = () => {
+        removeCookie("auth")
+        navigate("/login")
+    }
+    return (
       <div>
         <LargeNav>
         <Nav>
             <Left>
                 <Link to="/"><Logo src="/images/logo.png" alt='logo' /></Link>
-                <Link to="/"><NavItem>Home</NavItem></Link>
-                <Link to="all-plants"><NavItem>All Plants</NavItem></Link>
+
+                {authorised == undefined ? 
+                    <Link to="/"><NavItem>Home</NavItem></Link> : ""
+                }
+                
+                <Link to="all-plants"><NavItem>All Plants</NavItem></Link> 
+
+                {authorised !== undefined ? 
+                    <Link to="my-plants"><NavItem>My Plants</NavItem></Link> : ""
+                }
+                
             </Left>
             <Right>
-                <Link to="login"><NavItem><IconLink><AccountCircleIcon/></IconLink>Log in</NavItem></Link>
+                {authorised == undefined ? 
+                    <Link to="login"><NavItem><IconLink><AccountCircleIcon/></IconLink>Log in</NavItem></Link> : 
+                    <NavItem onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItem>
+                }
             </Right>
         </Nav>
         </LargeNav>

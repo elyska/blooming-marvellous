@@ -22,9 +22,19 @@ function AllPlants() {
 		);
 	},[]);
 
+	const handleChange = event => {
+		fetch('https://herberttrinity-definesigma-5000.codio-box.uk/plants?search=' + event.target.value, 
+			{ credentials: 'include' })
+			.then(response =>response.json()
+			.then(data => {setPlants(data.plants);
+			})
+		);
+  	};
     return (
         <Article>
-            <SearchBar/>
+			<form>
+            	<SearchBar handleInputChange={handleChange}/>
+			</form>
             <Plants plants={plants} />
         </Article>
     );

@@ -14,3 +14,9 @@ class Plants(db.Model):
     image = db.Column(db.String(255))
     url = db.Column(db.String(255))
     wateringInterval = db.Column(db.Integer)
+
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255))
+    password = db.Column(db.String(255))
+    
