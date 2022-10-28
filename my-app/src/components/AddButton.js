@@ -18,15 +18,35 @@ import Zoom from '@material-ui/core/Zoom';
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useCookies } from 'react-cookie';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-const useStyles = makeStyles({
-    addIcon: {
-      color: colours.green,  
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
     },
-    removeIcon: {
-      color: colours.red,  
+    "& .MuiIconButton-root": {
+          transform: "translateY(0) !important"
+    },
+    "& .MuiAlert-message": {
+      transform: "translateY(5px)"
     }
-});
+  },
+  addIcon: {
+      color: colours.green,  
+  },
+  removeIcon: {
+      color: colours.red,  
+  },
+}));
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -39,12 +59,14 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 
-export default function AddButton({ plantId, authorised, isAdded, handleVisibility, location }) {
+export default function AddButton({ plantId, authorised, isAdded, handleVisibility, location, name }) {
 
     const [cookies, setCookie, removeCookie] = useCookies(['myPlants']);
    
     const classes = useStyles();
 	  const [added, setAdded] = useState(isAdded);
+    const [openAdded, setOpenAdded] = React.useState(false);
+    const [openRemoved, setOpenRemoved] = React.useState(false);
 
     useEffect(() => { setAdded(isAdded)}, [isAdded] );
 
@@ -67,6 +89,7 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 		  if (response.ok){
 			    console.log('response worked!')
           setAdded(true)
+          setOpenAdded(true);
           handleVisibility()
 		  }
       else {
@@ -90,6 +113,7 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 		  if (response.ok){
 			console.log('response worked!')
             setAdded(false)
+            setOpenRemoved(true);
             if (location == "/my-plants") removeCookie('myPlants');
             handleVisibility()
 		  }
@@ -105,7 +129,7 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
           <LightTooltip TransitionComponent={Zoom} title="Remove from My Plants">
             <IconButton onClick={handleRemovePlant}>
               
-                <HighlightOffIcon className={classes.removeIcon}/>
+                <DeleteForeverIcon className={classes.removeIcon}/>
           
             </IconButton>
           </LightTooltip> :
@@ -118,6 +142,25 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
             </IconButton>
           </LightTooltip>
         }
-         </>   
+
+        { location != "/my-plants" ?
+
+        <div  className={classes.root}>
+          <Snackbar open={openAdded} autoHideDuration={6000} onClose={() => setOpenAdded(false)}>
+            <Alert onClose={() => setOpenAdded(false)} severity="success">
+              {name} added successfully!
+            </Alert>
+          </Snackbar>
+          <Snackbar open={openRemoved} autoHideDuration={6000} onClose={() => setOpenRemoved(false)}>
+            <Alert onClose={() => setOpenRemoved(false)} severity="success">
+              {name} removed successfully!
+            </Alert>
+          </Snackbar> 
+        </div> : ""
+        
+        }
+        
+        
+        </>   
   );
 }

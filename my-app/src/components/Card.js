@@ -105,7 +105,7 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
            : ""
         }
         { authorised !== "" && authorised !== undefined ?
-            <AddButton location={location} handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
+            <AddButton name={name} location={location} handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
            : ""
         }
         </>

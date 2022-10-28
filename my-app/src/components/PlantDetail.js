@@ -128,7 +128,7 @@ function PlantDetail() {
             
                 <>
                     { authorised != "" && authorised != undefined ?
-                        <AddButton location="" handleVisibility={handleVisibility} isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
+                        <AddButton name={plantDetail.name} location="" handleVisibility={handleVisibility} isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
                         :""
                     }
                     { authorised != "" && authorised != undefined && visible ?
