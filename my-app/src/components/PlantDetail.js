@@ -7,6 +7,7 @@ import PlantDetailParagraph from './PlantDetailParagraph';
 import RecommendedPlant from './RecommendedPlant';
 import { useParams} from "react-router-dom";
 import AddButton from './AddButton';
+import AddReminder from './AddReminder';
 import { useCookies } from 'react-cookie';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import colours from '../colours.js';
@@ -83,6 +84,8 @@ const useStyles = makeStyles({
         },
         "& .MuiIconButton-root": {
           padding: 0,
+          float: "right",
+          transform: "translateY(10px)"
         },
         "& .MuiIconButton-root:hover": {
           backgroundColor: colours.background,
@@ -94,7 +97,6 @@ function PlantDetail() {
     const classes = useStyles();
     let { name } = useParams();
     const [plantDetail, setPlantDetail] = useState([]);
-    //const [added, setAdded] = useState(false);
     const [cookies, setCookie] = useCookies(['auth']);
     const authorised = cookies.auth
 
@@ -110,29 +112,31 @@ function PlantDetail() {
 			})
 		);
 	},[name]);
-    /*
-    useEffect(()=> {
-    if(plantCookies.myPlants != undefined) {
-        plantList = plantCookies.myPlants.split(", ")
-    }
-	console.log('.plantList: ' + plantList)
-    if (plantDetail.id != undefined) {
-	    console.log('.id: ' + plantDetail.id)
-        const x = plantList.includes(String(plantDetail.id))
-	    console.log(x)
-        isAdded = x
-    }
-    console.log(isAdded)
 
-    },[plantDetail.id]);
-*/ 
+    const [visible, setVisible] = useState(plantDetail.added);
+    useEffect(() => { setVisible(plantDetail.added)}, [plantDetail.added] );
+    console.log(visible);
+
+    const handleVisibility = () => {
+        setVisible(!visible);
+        console.log(visible);
+    }
+
     return (
         <Article>
             
             <LeftSection className={classes.root}>
-            { authorised != "" && authorised != undefined ?
-                <AddButton isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} /> : ""
-            }
+            
+                <>
+                    { authorised != "" && authorised != undefined ?
+                        <AddButton handleVisibility={handleVisibility} isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
+                        :""
+                    }
+                    { authorised != "" && authorised != undefined && visible ?
+                        <AddReminder isAdded={plantDetail.reminder} plantId={plantDetail.id} authorised={authorised} />
+                        : ""
+                    }
+                </>
                 <Heading1>{plantDetail.name}</Heading1>
                 <AlternateName>{ plantDetail.alternateName !== "" ? "Also called " +parse(String(plantDetail.alternateName)) : ""}</AlternateName>
                 <ImageContainer>
@@ -147,7 +151,7 @@ function PlantDetail() {
             <RightSection>
                 <PlantDetailParagraph heading="Space Instructions" text={parse(String(plantDetail.spaceInstructions))}/>
                 <PlantDetailParagraph heading="Watering" text={`once in ${plantDetail.wateringInterval } days` }/>
-                <PlantDetailParagraph heading="Harvest Instructions" text={plantDetail.harvestInstructions}/>
+                <PlantDetailParagraph heading="Harvest Instructions" text={parse(String(plantDetail.harvestInstructions))}/>
                 { plantDetail.avoidInstructions ?  
                     <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>: ""
                 }

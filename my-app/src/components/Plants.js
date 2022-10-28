@@ -22,11 +22,17 @@ function Plants({ plants }) {
     const [cookies, setCookie] = useCookies(['auth']);
     const authorised = cookies.auth
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
+    const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
     let plantList = []
     if(plantCookies.myPlants != undefined) {
 		console.log('plantCookies.myPlants: ' + plantCookies.myPlants)
         plantList = plantCookies.myPlants.split(", ")
+    }
+    let reminderList = []
+    if(reminderCookies.myReminders != undefined) {
+		console.log('reminderCookies.myReminders: ' + reminderCookies.myReminders)
+        reminderList = reminderCookies.myReminders.split(", ")
     }
 
     return (
@@ -35,6 +41,7 @@ function Plants({ plants }) {
 				return (
 					<ListItem key={plant.id}>
                         <PlantCard 
+                            isSet={reminderList.includes(String(plant.id))}
                             isAdded={plantList.includes(String(plant.id))}
                             authorised={authorised}
                             image={plant.image} 

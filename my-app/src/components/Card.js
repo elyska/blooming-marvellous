@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import colours from '../colours.js';
 import TextButton from './TextButton';
 import AddButton from './AddButton';
+import AddReminder from './AddReminder';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
@@ -71,8 +72,9 @@ const Left = styled.section`
 const Right = styled.section`
 `;
 
-export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded }) {
+export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet }) {
   const classes = useStyles();
+
 
   return (
     <Card className={classes.root}>
@@ -98,11 +100,16 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
         </Left>
 
         <Right>
-
+        <>
         { authorised != "" && authorised != undefined ?
-          <AddButton isAdded={isAdded} plantId={plantId} authorised={authorised} /> : ""
+            <AddReminder isAdded={isSet} plantId={plantId} authorised={authorised} />
+           : ""
         }
-        
+        { authorised != "" && authorised != undefined ?
+            <AddButton handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
+           : ""
+        }
+        </>
               
         </Right>
 

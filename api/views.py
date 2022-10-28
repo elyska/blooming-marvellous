@@ -21,16 +21,53 @@ def userPlants():
 
 	return jsonify({'myPlants': myPlants})
 
+
+@main.route('/user-reminders')
+def userReminders():
+	username = request.args.get('username', type = str)
+	plantList = MyPlants.query.filter_by(username=username, reminder=1).all()
+
+	myReminders= ""
+
+	for e in plantList:
+		myReminders += str(e.plant_id) + ", "
+
+	print("myReminders")
+	print(myReminders[:-2])
+
+	return jsonify({'myReminders': myReminders})
+
+@main.route('/add-reminder', methods=['POST'])
+def addReminder():
+	data = request.get_json()
+	print(data)
+
+	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=1))
+	db.session.commit()
+
+	return 'Done', 201
+
+@main.route('/remove-reminder', methods=['POST'])
+def removeReminder():
+	data = request.get_json()
+	print(data)
+
+	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=0))
+	db.session.commit()
+	
+	return 'Done', 201
+
 @main.route('/add-plant', methods=['POST'])
 def addPlant():
 	data = request.get_json()
 	print(data)
 
-	newPlant = MyPlants(plant_id=data["plantId"], username=data['authorised'])
+	newPlant = MyPlants(plant_id=data["plantId"], username=data['authorised'], reminder=0)
 	db.session.add(newPlant)
 	db.session.commit()
 
 	return 'Done', 201
+
 @main.route('/remove-plant', methods=['POST'])
 def removePlant():
 	data = request.get_json()
@@ -158,6 +195,7 @@ def plantDetail(name):
 		plantDetail["added"] = False
 	else:
 		plantDetail["added"] = True
+		plantDetail["reminder"] = exists.reminder
 
 	print(plantDetail)
 

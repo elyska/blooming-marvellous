@@ -15,6 +15,7 @@ function AllPlants() {
     const [plants, setPlants] = useState([]);
     const [cookies, setCookie] = useCookies(['auth']);
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
+    const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
 	useEffect(()=> {
 			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/plants', 
@@ -30,7 +31,14 @@ function AllPlants() {
 				.then(response =>response.json()
 				.then(data => {setPlantCookie('myPlants', data.myPlants);
 				})
-			);
+				);
+
+				fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-reminders?username=' + cookies.auth, 
+				{ credentials: 'include' })
+				.then(response =>response.json()
+				.then(data => {setReminderCookie('myReminders', data.myReminders);
+				})
+				);
 			}
 	},[]);
 
