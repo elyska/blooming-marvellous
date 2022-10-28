@@ -136,6 +136,29 @@ def plants():
 
 	return jsonify({'plants': plants})
 
+@main.route('/my-plants')
+def myPlants():
+	searchTerm = request.args.get('username', type = str)
+	
+	# returns list of tuples
+	plantList = Plants.query.join(MyPlants, Plants.id == MyPlants.plant_id).add_columns(MyPlants.reminder).all()
+
+	plants = []
+
+	for plantTuple in plantList:
+		plant = plantTuple[0]
+		reminder = plantTuple[1]
+		# get the first image
+		image = ""
+		if plant.image != None: 
+			image = plant.image.split(";")[0]
+			if image[-8:] == "/150/150": 
+				image = image[0:-8] + "/600/600"
+		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName, 'image': image, 'reminder': reminder})
+
+	print(plants)
+	return jsonify({'plants': plants})
+
 @main.route('/plant/<name>')
 def plantDetail(name):
 	# get arguments
