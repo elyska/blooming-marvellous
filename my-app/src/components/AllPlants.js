@@ -25,7 +25,7 @@ function AllPlants() {
 			})
 			);
 
-			if (cookies.auth != "" && cookies != undefined) {
+			if (cookies.auth !== "" && cookies !== undefined) {
 				fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-plants?username=' + cookies.auth, 
 				{ credentials: 'include' })
 				.then(response =>response.json()
@@ -40,7 +40,7 @@ function AllPlants() {
 				})
 				);
 			}
-	},[]);
+	},[plantCookies.myPlants]);
 
 	
 

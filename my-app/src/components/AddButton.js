@@ -39,9 +39,9 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 
-export default function AddButton({ plantId, authorised, isAdded, handleVisibility }) {
+export default function AddButton({ plantId, authorised, isAdded, handleVisibility, location }) {
 
-    const [cookies, setCookie] = useCookies(['myPlants']);
+    const [cookies, setCookie, removeCookie] = useCookies(['myPlants']);
    
     const classes = useStyles();
 	  const [added, setAdded] = useState(isAdded);
@@ -49,10 +49,9 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
     useEffect(() => { setAdded(isAdded)}, [isAdded] );
 
     const handleAddPlant = async () => {
+      console.log(cookies.myPlants)
 
-      handleVisibility()
-
-      if (cookies.myPlants != undefined && cookies.myPlants.split(", ").includes(String(plantId))) return;
+      //if (cookies.myPlants == undefined && cookies.myPlants.split(", ").includes(String(plantId))) return;
 
 		  const data = {plantId, authorised};
 
@@ -66,8 +65,9 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 		  })
 
 		  if (response.ok){
-			console.log('response worked!')
-            setAdded(true)
+			    console.log('response worked!')
+          setAdded(true)
+          handleVisibility()
 		  }
       else {
 			  console.log('response not worked!')
@@ -75,7 +75,6 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
     }
 
     const handleRemovePlant = async () => {
-      handleVisibility()
 
 		  const data = {plantId, authorised};
 
@@ -91,6 +90,8 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 		  if (response.ok){
 			console.log('response worked!')
             setAdded(false)
+            if (location == "/my-plants") removeCookie('myPlants');
+            handleVisibility()
 		  }
       else {
 			  console.log('response not worked!')

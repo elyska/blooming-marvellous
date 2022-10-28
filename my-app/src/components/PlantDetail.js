@@ -115,7 +115,6 @@ function PlantDetail() {
 
     const [visible, setVisible] = useState(plantDetail.added);
     useEffect(() => { setVisible(plantDetail.added)}, [plantDetail.added] );
-    console.log(visible);
 
     const handleVisibility = () => {
         setVisible(!visible);
@@ -129,7 +128,7 @@ function PlantDetail() {
             
                 <>
                     { authorised != "" && authorised != undefined ?
-                        <AddButton handleVisibility={handleVisibility} isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
+                        <AddButton location="" handleVisibility={handleVisibility} isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
                         :""
                     }
                     { authorised != "" && authorised != undefined && visible ?

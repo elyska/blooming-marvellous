@@ -3,11 +3,7 @@
 
 import React, {useEffect, useState} from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import colours from '../colours.js';
-import TextButton from './TextButton';
-import { Link } from "react-router-dom";
-import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,14 +36,15 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
     const [cookies, setCookie] = useCookies(['myReminders']);
    
     const classes = useStyles();
-	const [added, setAdded] = useState(isAdded);
+	  const [added, setAdded] = useState(isAdded);
     
     useEffect(() => { setAdded(isAdded)}, [isAdded] );
 
     const handleAddReminder = async () => {
 
+      console.log("set: " + added)
         console.log("cookies.myReminders: " + cookies.myReminders)
-        if (cookies.myReminders != undefined && cookies.myReminders.split(", ").includes(String(plantId))) return;
+        //if (cookies.myReminders == undefined && cookies.myReminders.split(", ").includes(String(plantId))) return;
 
 	    const data = {plantId, authorised};
 
@@ -71,6 +68,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
 
     const handleRemoveReminder = async () => {
 		  const data = {plantId, authorised};
+      console.log("set: " + added)
 
       const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/remove-reminder', {
 			    method: 'POST',
@@ -94,7 +92,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
     
         <>
          {added ? 
-          <LightTooltip TransitionComponent={Zoom} title="Remove from My Plants">
+          <LightTooltip TransitionComponent={Zoom} title="Turn off reminders">
             <IconButton onClick={handleRemoveReminder}>
               
                 <NotificationsOffIcon className={classes.removeIcon}/>
@@ -102,7 +100,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
             </IconButton>
           </LightTooltip> :
           
-          <LightTooltip TransitionComponent={Zoom} title="Add to My Plants">
+          <LightTooltip TransitionComponent={Zoom} title="Turn on reminders">
             <IconButton onClick={handleAddReminder}>
               
                 <AddAlertIcon  className={classes.addIcon}/>

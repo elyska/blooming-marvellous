@@ -138,10 +138,10 @@ def plants():
 
 @main.route('/my-plants')
 def myPlants():
-	searchTerm = request.args.get('username', type = str)
+	username = request.args.get('username', type = str)
 	
 	# returns list of tuples
-	plantList = Plants.query.join(MyPlants, Plants.id == MyPlants.plant_id).add_columns(MyPlants.reminder).all()
+	plantList = Plants.query.join(MyPlants, Plants.id == MyPlants.plant_id).add_columns(MyPlants.reminder, MyPlants.username).filter(MyPlants.username == username).all()
 
 	plants = []
 

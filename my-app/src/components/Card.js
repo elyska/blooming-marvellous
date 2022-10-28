@@ -1,13 +1,12 @@
 
 /* Card.js */
 
-import React, {useEffect, useState} from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import colours from '../colours.js';
 import TextButton from './TextButton';
 import AddButton from './AddButton';
@@ -72,7 +71,7 @@ const Left = styled.section`
 const Right = styled.section`
 `;
 
-export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet }) {
+export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet, location }) {
   const classes = useStyles();
 
 
@@ -101,12 +100,12 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
 
         <Right>
         <>
-        { authorised != "" && authorised != undefined ?
+        { authorised !== "" && authorised !== undefined && location == "/my-plants" ?
             <AddReminder isAdded={isSet} plantId={plantId} authorised={authorised} />
            : ""
         }
-        { authorised != "" && authorised != undefined ?
-            <AddButton handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
+        { authorised !== "" && authorised !== undefined ?
+            <AddButton location={location} handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
            : ""
         }
         </>

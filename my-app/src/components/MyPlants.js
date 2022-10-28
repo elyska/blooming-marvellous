@@ -1,12 +1,11 @@
 // MyPlants.js
 
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import colours from '../colours.js';
-import Login from './Login';
-import { useNavigate} from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import { Link } from "react-router-dom";
 import Button from './Button';
+import Plants from './Plants';
 
 const Heading1 = styled.h1`
     font-size: 30px;
@@ -28,27 +27,68 @@ const Paragraph = styled.p`
 
 function MyPlants() {
     const [cookies, setCookie] = useCookies(['auth']);
-    const navigate = useNavigate();
+    const [plants, setPlants] = useState([]);
+    const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
+    const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
     const authorised = cookies.auth
-    console.log(authorised)
+    useEffect(()=> {
+			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/my-plants?username=' + authorised, 
+			{ credentials: 'include' })
+			.then(response =>response.json()
+			.then(data => {setPlants(data.plants);
+			})
+			);
 
-    if (authorised == undefined) {
+            fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-plants?username=' + cookies.auth, 
+				{ credentials: 'include' })
+				.then(response =>response.json()
+				.then(data => {setPlantCookie('myPlants', data.myPlants);
+				})
+				);
+
+			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-reminders?username=' + cookies.auth, 
+				{ credentials: 'include' })
+				.then(response =>response.json()
+				.then(data => {setReminderCookie('myReminders', data.myReminders);
+				})
+				);
+			
+	},[plantCookies.myPlants]);
+
+    console.log("plantCookies.myPlants")
+    console.log(plantCookies.myPlants)
+
+    // if not authorised, redirect to login
+    if (authorised === undefined) {
         console.log("undef")
         window.location.pathname = '/login';
     }
     else {
-return (
+
+    return (
         <article>
             <Heading1>My Plants </Heading1>  
 
-            <Paragraph>You haven't added any plants.</Paragraph> 
+            { plants === undefined || plants.length === 0 ?
+            
+            <>
+                <Paragraph>You haven't added any plants.</Paragraph> 
 
-            <figure>
-                <Image src="/images/empty-pot.png" alt="No plants" />
-            </figure>
+                <figure>
+                    <Image src="/images/empty-pot.png" alt="No plants" />
+                </figure>
 
-            <Link to="/all-plants"><Button buttonText="Get started" /></Link>
+                <Link to="/all-plants"><Button buttonText="Get started" /></Link>
+            </> : 
+
+            <>
+                <Plants plants={plants} />
+
+            </>
+            }
+
+            
 
         </article>
     ); 

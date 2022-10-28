@@ -5,6 +5,7 @@ import PlantCard from './Card';
 import styled from 'styled-components';
 import parse from 'html-react-parser';
 import { useCookies } from 'react-cookie';
+import {useLocation} from 'react-router-dom';
 
 const List = styled.ul`
     display: flex;
@@ -18,29 +19,31 @@ const ListItem = styled.li`
 `;
 
 function Plants({ plants }) {
-    const parse = require('html-react-parser');
+    const location = useLocation().pathname;
+    console.log(location)
     const [cookies, setCookie] = useCookies(['auth']);
     const authorised = cookies.auth
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
     const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
     let plantList = []
-    if(plantCookies.myPlants != undefined) {
+    if(plantCookies.myPlants !== undefined) {
 		console.log('plantCookies.myPlants: ' + plantCookies.myPlants)
         plantList = plantCookies.myPlants.split(", ")
     }
     let reminderList = []
-    if(reminderCookies.myReminders != undefined) {
+    if(reminderCookies.myReminders !== undefined) {
 		console.log('reminderCookies.myReminders: ' + reminderCookies.myReminders)
         reminderList = reminderCookies.myReminders.split(", ")
     }
-
+    
     return (
         <List>
             {plants.map(plant => {
 				return (
 					<ListItem key={plant.id}>
                         <PlantCard 
+                            location={location}
                             isSet={reminderList.includes(String(plant.id))}
                             isAdded={plantList.includes(String(plant.id))}
                             authorised={authorised}
