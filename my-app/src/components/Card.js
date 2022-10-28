@@ -12,12 +12,7 @@ import colours from '../colours.js';
 import TextButton from './TextButton';
 import AddButton from './AddButton';
 import { Link } from "react-router-dom";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import styled from 'styled-components';
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
-import IconButton from '@material-ui/core/IconButton';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles({
     root: {

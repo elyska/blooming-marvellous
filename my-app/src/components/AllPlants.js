@@ -32,8 +32,6 @@ function AllPlants() {
 				})
 			);
 			}
-
-			console.log("useeffect in All plants")
 	},[]);
 
 	

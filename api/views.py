@@ -101,9 +101,12 @@ def plants():
 
 @main.route('/plant/<name>')
 def plantDetail(name):
-	print("Hello")
-	print(name)
+	# get arguments
+	username = request.args.get('username', type = str)
+
+	#get plant url variable
 	plant = Plants.query.filter_by(name=name).first()
+	
 	# get the first image
 	image = ""
 	if plant.image != None: 
@@ -147,5 +150,15 @@ def plantDetail(name):
     	'culinaryPreservation' : plant.culinaryPreservation,
     	'wateringInterval' : plant.wateringInterval,
 	}
+
+	# check if plant is added
+	exists = MyPlants.query.filter_by(plant_id=plantDetail["id"], username=username).first()
+
+	if exists == None:
+		plantDetail["added"] = False
+	else:
+		plantDetail["added"] = True
+
+	print(plantDetail)
 
 	return jsonify({'plants': plantDetail})

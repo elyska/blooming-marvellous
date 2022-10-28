@@ -43,9 +43,10 @@ export default function AddButton({ plantId, authorised, isAdded }) {
 
     const [cookies, setCookie] = useCookies(['myPlants']);
    
-
     const classes = useStyles();
 	  const [added, setAdded] = useState(isAdded);
+    
+    useEffect(() => { setAdded(isAdded)}, [isAdded] );
 
     const handleAddPlant = async () => {
 

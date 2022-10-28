@@ -6,6 +6,10 @@ import parse from 'html-react-parser';
 import PlantDetailParagraph from './PlantDetailParagraph';
 import RecommendedPlant from './RecommendedPlant';
 import { useParams} from "react-router-dom";
+import AddButton from './AddButton';
+import { useCookies } from 'react-cookie';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import colours from '../colours.js';
 
 const Article = styled.article`
     text-align: left;
@@ -64,24 +68,71 @@ const RecommendedContainer = styled.div`
     justify-content: flex-start;
 `;
 
-
-function PlantDetail() {
+const useStyles = makeStyles({
+    root: {
+        "& .MuiCardActions-root": {
+            padding: "10px",
+            display: "flex",
+            justifyContent: "space-between"
+        },
+        "& .MuiSvgIcon-root": {
+          fontSize: "30px",
+          /*color: colours.pink,
+          background: "red",
+          borderRadius: "100%"*/
+        },
+        "& .MuiIconButton-root": {
+          padding: 0,
+        },
+        "& .MuiIconButton-root:hover": {
+          backgroundColor: colours.background,
+   
+        }
+    },
+});
+function PlantDetail() {  
+    const classes = useStyles();
     let { name } = useParams();
     const [plantDetail, setPlantDetail] = useState([]);
+    //const [added, setAdded] = useState(false);
+    const [cookies, setCookie] = useCookies(['auth']);
+    const authorised = cookies.auth
 
+    const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
+
+    let plantList = []
 	useEffect(()=> {
-			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/plant/' + name, 
+			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/plant/' + name + "?username=" + authorised, 
 			{ credentials: 'include' })
 			.then(response =>response.json()
-			.then(data => {setPlantDetail(data.plants);
+			.then(data => {
+                setPlantDetail(data.plants); 
 			})
 		);
 	},[name]);
+    /*
+    useEffect(()=> {
+    if(plantCookies.myPlants != undefined) {
+        plantList = plantCookies.myPlants.split(", ")
+    }
+	console.log('.plantList: ' + plantList)
+    if (plantDetail.id != undefined) {
+	    console.log('.id: ' + plantDetail.id)
+        const x = plantList.includes(String(plantDetail.id))
+	    console.log(x)
+        isAdded = x
+    }
+    console.log(isAdded)
 
-
+    },[plantDetail.id]);
+*/ 
     return (
         <Article>
-            <LeftSection>
+            
+            <LeftSection className={classes.root}>
+            { authorised != "" && authorised != undefined ?
+                <AddButton isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} /> : ""
+            }
                 <Heading1>{plantDetail.name}</Heading1>
                 <AlternateName>{ plantDetail.alternateName !== "" ? "Also called " +parse(String(plantDetail.alternateName)) : ""}</AlternateName>
                 <ImageContainer>
