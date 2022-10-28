@@ -11,14 +11,36 @@ import AddAlertIcon from '@material-ui/icons/AddAlert';
 import NotificationsOffIcon from '@material-ui/icons/NotificationsOff';
 import { useCookies } from 'react-cookie';
 
-const useStyles = makeStyles({
-    addIcon: {
-      color: colours.green,  
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
     },
-    removeIcon: {
-      color: colours.red,  
+    "& .MuiIconButton-root": {
+          transform: "translateY(0) !important"
+    },
+    "& .MuiIconButton-root:hover": {
+          backgroundColor: colours.green + " !important",
+    },
+    "& .MuiAlert-message": {
+      transform: "translateY(5px)"
     }
-});
+  },
+  addIcon: {
+      color: colours.green,  
+  },
+  removeIcon: {
+      color: colours.red,  
+  },
+}));
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -37,8 +59,11 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
    
     const classes = useStyles();
 	  const [added, setAdded] = useState(isAdded);
-    
+
     useEffect(() => { setAdded(isAdded)}, [isAdded] );
+    
+    const [openAdded, setOpenAdded] = React.useState(false);
+    const [openRemoved, setOpenRemoved] = React.useState(false);
 
     const handleAddReminder = async () => {
 
@@ -60,6 +85,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
 		if (response.ok){
 			console.log('response worked!')
             setAdded(true)
+            setOpenAdded(true)
 		  }
         else {
 			  console.log('response not worked!')
@@ -82,6 +108,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
 		  if (response.ok){
 			console.log('response worked!')
             setAdded(false)
+            setOpenRemoved(true)
 		  }
       else {
 			  console.log('response not worked!')
@@ -108,6 +135,23 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
             </IconButton>
           </LightTooltip>
         }
-         </>   
+
+
+        <div  className={classes.root}>
+          <Snackbar open={openAdded} autoHideDuration={6000} onClose={() => setOpenAdded(false)}>
+            <Alert onClose={() => setOpenAdded(false)} severity="success">
+              Reminder added successfully!
+            </Alert>
+          </Snackbar>
+          <Snackbar open={openRemoved} autoHideDuration={6000} onClose={() => setOpenRemoved(false)}>
+            <Alert onClose={() => setOpenRemoved(false)} severity="success">
+              Reminder removed successfully!
+            </Alert>
+          </Snackbar> 
+        </div> 
+        
+
+
+        </>   
   );
 }

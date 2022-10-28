@@ -6,7 +6,7 @@ const colours = {
     pinkDarker: "#ea5f9e",
     typeface: "#575756",
     background: "#F7EDEB",
-    green: "#0cc700",
+    green: "#47c04b",
     red: "#e82d2d"
     
 }

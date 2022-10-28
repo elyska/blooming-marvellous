@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiIconButton-root": {
           transform: "translateY(0) !important"
     },
+    "& .MuiIconButton-root:hover": {
+          backgroundColor: colours.green + " !important",
+    },
     "& .MuiAlert-message": {
       transform: "translateY(5px)"
     }

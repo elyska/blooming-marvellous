@@ -64,6 +64,9 @@ const useStyles = makeStyles({
         "-webkit-box-orient": "vertical",
         overflow: "hidden",
     },
+    iconButtonsWrapper: {
+      display: "flex"
+    }
 });
 const Left = styled.section`
     
@@ -99,7 +102,7 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
         </Left>
 
         <Right>
-        <>
+        <div className={classes.iconButtonsWrapper}>
         { authorised !== "" && authorised !== undefined && location == "/my-plants" ?
             <AddReminder isAdded={isSet} plantId={plantId} authorised={authorised} />
            : ""
@@ -108,7 +111,7 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
             <AddButton name={name} location={location} handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
            : ""
         }
-        </>
+        </div>
               
         </Right>
 
