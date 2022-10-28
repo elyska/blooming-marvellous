@@ -28,7 +28,6 @@ function Plants({ plants }) {
 		console.log('plantCookies.myPlants: ' + plantCookies.myPlants)
         plantList = plantCookies.myPlants.split(", ")
     }
-    console.log(plantList)
 
     return (
         <List>

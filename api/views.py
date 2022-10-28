@@ -7,6 +7,20 @@ from sqlalchemy import desc
 main = Blueprint('main', __name__)
 CORS(main, supports_credentials=True)
 
+@main.route('/user-plants')
+def userPlants():
+	username = request.args.get('username', type = str)
+	plantList = MyPlants.query.filter_by(username=username).all()
+
+	myPlants = ""
+
+	for e in plantList:
+		myPlants += str(e.plant_id) + ", "
+
+	print(myPlants[:-2])
+
+	return jsonify({'myPlants': myPlants})
+
 @main.route('/add-plant', methods=['POST'])
 def addPlant():
 	data = request.get_json()
@@ -16,6 +30,16 @@ def addPlant():
 	db.session.add(newPlant)
 	db.session.commit()
 
+	return 'Done', 201
+@main.route('/remove-plant', methods=['POST'])
+def removePlant():
+	data = request.get_json()
+	print(data)
+	
+	
+	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).delete()
+	db.session.commit()
+	
 	return 'Done', 201
 
 @main.route('/register', methods=['POST'])

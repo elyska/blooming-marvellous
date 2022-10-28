@@ -20,29 +20,14 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles({
-    root: {
-        width: 280,
-        margin: "10px",
-        "& .MuiCardActions-root": {
-            padding: "10px",
-            display: "flex",
-            justifyContent: "space-between"
-        },
-        "& .MuiSvgIcon-root": {
-          fontSize: "30px",
-          color: colours.pink,
-          /*background: "red",
-          borderRadius: "100%"*/
-        },
-        "& .MuiIconButton-root": {
-          padding: 0,
-        },
-        "& .MuiIconButton-root:hover": {
-          backgroundColor: colours.background,
-   
-        }
+    addIcon: {
+      color: colours.green,  
     },
+    removeIcon: {
+      color: colours.red,  
+    }
 });
+
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
@@ -60,41 +45,59 @@ export default function AddButton({ plantId, authorised, isAdded }) {
    
 
     const classes = useStyles();
-	const [added, setAdded] = useState(isAdded);
+	  const [added, setAdded] = useState(isAdded);
 
     const handleAddPlant = async () => {
 
-        if (cookies.myPlants != undefined && cookies.myPlants.split(", ").includes(String(plantId))) return;
+      if (cookies.myPlants != undefined && cookies.myPlants.split(", ").includes(String(plantId))) return;
 
-		const data = {plantId, authorised};
+		  const data = {plantId, authorised};
 
-        const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/add-plant', {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-		console.log(response)
-		if (response.ok){
+      const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/add-plant', {
+			    method: 'POST',
+			    credentials: 'include',
+			    headers: {
+				    'Content-type': 'application/json'
+			    },
+			    body: JSON.stringify(data)
+		  })
+
+		  if (response.ok){
 			console.log('response worked!')
             setAdded(true)
             // add plants to cookies
-			console.log('cookies.myPlants: ' + cookies.myPlants)
-            if(cookies.myPlants != undefined) 
-            {
-                setCookie('myPlants', cookies.myPlants + ", " + String(plantId))
-            }
-            else setCookie('myPlants', plantId)
-		}
-        else {
-			console.log('response not worked!')
-        }
-  }
-  const handleRemovePlant = async () => {
-    
-  }
+			      //console.log('cookies.myPlants: ' + cookies.myPlants)
+            //if(cookies.myPlants != undefined) 
+            //{
+                //setCookie('myPlants', cookies.myPlants + ", " + String(plantId))
+            //}
+            //else setCookie('myPlants', plantId)
+		  }
+      else {
+			  console.log('response not worked!')
+      }
+    }
+
+    const handleRemovePlant = async () => {
+		  const data = {plantId, authorised};
+
+      const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/remove-plant', {
+			    method: 'POST',
+			    credentials: 'include',
+			    headers: {
+				    'Content-type': 'application/json'
+			    },
+			    body: JSON.stringify(data)
+		  })
+
+		  if (response.ok){
+			console.log('response worked!')
+            setAdded(false)
+		  }
+      else {
+			  console.log('response not worked!')
+      }
+    }
 
   return (
     
@@ -103,7 +106,7 @@ export default function AddButton({ plantId, authorised, isAdded }) {
           <LightTooltip TransitionComponent={Zoom} title="Remove from My Plants">
             <IconButton onClick={handleRemovePlant}>
               
-                <HighlightOffIcon />
+                <HighlightOffIcon className={classes.removeIcon}/>
           
             </IconButton>
           </LightTooltip> :
@@ -111,7 +114,7 @@ export default function AddButton({ plantId, authorised, isAdded }) {
           <LightTooltip TransitionComponent={Zoom} title="Add to My Plants">
             <IconButton onClick={handleAddPlant}>
               
-                <AddCircleOutlineIcon/>
+                <AddCircleOutlineIcon  className={classes.addIcon}/>
           
             </IconButton>
           </LightTooltip>

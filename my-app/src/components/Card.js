@@ -30,8 +30,8 @@ const useStyles = makeStyles({
         },
         "& .MuiSvgIcon-root": {
           fontSize: "30px",
-          color: colours.pink,
-          /*background: "red",
+          /*color: colours.pink,
+          background: "red",
           borderRadius: "100%"*/
         },
         "& .MuiIconButton-root": {
@@ -70,15 +70,6 @@ const useStyles = makeStyles({
         overflow: "hidden",
     },
 });
-const LightTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow: theme.shadows[1],
-    fontSize: 12,
-    fontFamily: "Montserrat"
-  },
-}))(Tooltip);
 const Left = styled.section`
     
 `;
@@ -113,7 +104,7 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
 
         <Right>
 
-        { authorised != "" || authorised != undefined ?
+        { authorised != "" && authorised != undefined ?
           <AddButton isAdded={isAdded} plantId={plantId} authorised={authorised} /> : ""
         }
         
