@@ -15,12 +15,34 @@ import { useNavigate} from "react-router-dom";
 import { Drawer, Divider, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Badge from '@material-ui/core/Badge';
+
 const useStyles = makeStyles({
     root: {
        "& .MuiDrawer-paper": {
             padding: "75px 0 20px 30px",
         },
     },
+    rootRight: {
+        "& .MuiBadge-root": {
+            transform: "translateY(-15px)",
+        },
+        "& .MuiBadge-root:hover": {
+            cursor: "pointer", 
+            "& .material-symbols-outlined": {
+                color: colours.pink,
+            }
+        },
+        "& .MuiBadge-badge": {
+            backgroundColor: colours.blue,
+            color: "white",
+            fontFamily: "Montserrat"
+        }, 
+        "& .material-symbols-outlined": {
+            transition: "all 0.2s",
+        }
+
+    }
 });
 
 const Nav = styled.nav`
@@ -104,7 +126,8 @@ const IconLink = styled.div`
     transform: translateY(6px);
     margin-right: 10px;
 `;
-
+const WaterIcon = styled.span`
+`;
 
 function Navbar() {
     const navigate = useNavigate();
@@ -153,10 +176,24 @@ function Navbar() {
                 }
                 
             </Left>
-            <Right>
-                { authorised == undefined ? 
-                    <Link to="login"><NavItem><IconLink><AccountCircleIcon/></IconLink>Log in</NavItem></Link> : 
-                    <NavItem onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItem>
+            <Right className={classes.rootRight}>
+                { authorised != undefined ? 
+                    <div>
+                        <Badge
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                            badgeContent={4}
+                        >
+                            <WaterIcon className="material-symbols-outlined">water_drop</WaterIcon>
+                        </Badge>
+                        <NavItem onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItem>
+
+                        
+                    </div>
+                     : 
+                    <Link to="login"><NavItem><IconLink><AccountCircleIcon/></IconLink>Log in</NavItem></Link>
                 }
             </Right>
         </Nav>

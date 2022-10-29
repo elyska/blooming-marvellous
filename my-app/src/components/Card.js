@@ -13,9 +13,11 @@ import AddButton from './AddButton';
 import AddReminder from './AddReminder';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
     root: {
+        position: "relative",
         width: 280,
         margin: "10px",
         "& .MuiCardActions-root": {
@@ -25,16 +27,20 @@ const useStyles = makeStyles({
         },
         "& .MuiSvgIcon-root": {
           fontSize: "30px",
-          /*color: colours.pink,
-          background: "red",
-          borderRadius: "100%"*/
         },
         "& .MuiIconButton-root": {
           padding: 0,
         },
         "& .MuiIconButton-root:hover": {
           backgroundColor: colours.background,
-   
+        },
+        "& .MuiChip-root": {
+          backgroundColor: colours.bgTransparent,
+          position: "absolute",
+          fontFamily: "Montserrat",
+          fontSize: "14px",
+          right: "5px",
+          top: "5px"
         }
     },
     media: {
@@ -74,12 +80,22 @@ const Left = styled.section`
 const Right = styled.section`
 `;
 
-export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet, location }) {
+const WaterIcon = styled.span`
+    color: ${colours.blue};
+`;
+
+export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet, location, waterToday }) {
   const classes = useStyles();
 
 
   return (
     <Card className={classes.root}>
+      { waterToday ? 
+        <Chip
+          icon={<WaterIcon className="material-symbols-outlined">water_drop</WaterIcon>}
+          label="Needs watering today"
+        /> : ""
+      }
      
         <CardMedia
           className={classes.media}
@@ -93,6 +109,7 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
           <p className={classes.alternateName}>
             {alternateName}
           </p>
+         
         </CardContent>
       
       <CardActions>

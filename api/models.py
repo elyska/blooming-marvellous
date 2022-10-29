@@ -1,5 +1,4 @@
 from . import db
-from sqlalchemy.sql import func
 
 class Plants(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,5 +25,5 @@ class MyPlants(db.Model):
     username = db.Column(db.String(255))
     plant_id = db.Column(db.Integer)
     reminder = db.Column(db.Integer)
-    #date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+    date = db.Column(db.String(255))
     

@@ -40,6 +40,12 @@ function Plants({ plants }) {
     return (
         <List>
             {plants.map(plant => {
+
+                let waterToday = false
+
+                if (plant.waterToday != undefined) waterToday = plant.waterToday
+                console.log("waterToday: " + waterToday)
+                
 				return (
 					<ListItem key={plant.id}>
                         <PlantCard 
@@ -49,6 +55,7 @@ function Plants({ plants }) {
                             authorised={authorised}
                             image={plant.image} 
                             name={plant.name} 
+                            waterToday={waterToday} 
                             alternateName={parse(plant.alternateName)}
                             plantId={plant.id}
                         />

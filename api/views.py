@@ -3,6 +3,7 @@ from . import db
 from .models import Plants, Users, MyPlants
 from flask_cors import CORS
 from sqlalchemy import desc
+from datetime import datetime, date
 
 main = Blueprint('main', __name__)
 CORS(main, supports_credentials=True)
@@ -42,7 +43,8 @@ def addReminder():
 	data = request.get_json()
 	print(data)
 
-	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=1))
+	today = date.today()
+	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=1, date=today))
 	db.session.commit()
 
 	return 'Done', 201
@@ -52,7 +54,7 @@ def removeReminder():
 	data = request.get_json()
 	print(data)
 
-	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=0))
+	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=0, date=None))
 	db.session.commit()
 	
 	return 'Done', 201
@@ -141,7 +143,7 @@ def myPlants():
 	username = request.args.get('username', type = str)
 	
 	# returns list of tuples
-	plantList = Plants.query.join(MyPlants, Plants.id == MyPlants.plant_id).add_columns(MyPlants.reminder, MyPlants.username).filter(MyPlants.username == username).all()
+	plantList = Plants.query.join(MyPlants, Plants.id == MyPlants.plant_id).add_columns(MyPlants.reminder, MyPlants.date, MyPlants.username).filter(MyPlants.username == username).all()
 
 	plants = []
 
@@ -154,7 +156,17 @@ def myPlants():
 			image = plant.image.split(";")[0]
 			if image[-8:] == "/150/150": 
 				image = image[0:-8] + "/600/600"
-		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName, 'image': image, 'reminder': reminder})
+
+		# check if plant needs watering today
+		waterToday = False
+		if plant.wateringInterval != None and plant.wateringInterval != "" and plantTuple[2] != None: 
+			reminderAdded = datetime.strptime(plantTuple[2], '%Y-%m-%d').date() # date when reminder was added to date object
+			today = date.today()
+			delta = (today - reminderAdded).days # time difference in day (int)
+			print(delta)
+			waterToday = delta % plant.wateringInterval == 0
+
+		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName, 'image': image, 'reminder': reminder,'waterToday': waterToday})
 
 	print(plants)
 	return jsonify({'plants': plants})
