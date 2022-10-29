@@ -9,7 +9,7 @@ import { useParams} from "react-router-dom";
 import AddButton from './AddButton';
 import AddReminder from './AddReminder';
 import { useCookies } from 'react-cookie';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import colours from '../colours.js';
 
 const Article = styled.article`
@@ -136,6 +136,7 @@ function PlantDetail() {
                         : ""
                     }
                 </>
+
                 <Heading1>{plantDetail.name}</Heading1>
                 <AlternateName>{ plantDetail.alternateName !== "" ? "Also called " +parse(String(plantDetail.alternateName)) : ""}</AlternateName>
                 <ImageContainer>
@@ -149,7 +150,12 @@ function PlantDetail() {
             
             <RightSection>
                 <PlantDetailParagraph heading="Space Instructions" text={parse(String(plantDetail.spaceInstructions))}/>
-                <PlantDetailParagraph heading="Watering" text={`once in ${plantDetail.wateringInterval } days` }/>
+
+                { plantDetail.wateringInterval == 1 ?  
+                    <PlantDetailParagraph heading="Watering" text={`once a day` }/>:
+                    <PlantDetailParagraph heading="Watering" text={`once in ${plantDetail.wateringInterval } days` }/>
+                }
+
                 <PlantDetailParagraph heading="Harvest Instructions" text={parse(String(plantDetail.harvestInstructions))}/>
                 { plantDetail.avoidInstructions ?  
                     <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>: ""

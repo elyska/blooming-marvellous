@@ -85,6 +85,7 @@ const NavItemMobile = styled.p`
 
     &:hover {
         color: ${colours.pink};
+        cursor: pointer;
     }
 `;
 const IconLink = styled.div`
@@ -100,12 +101,15 @@ function Navbar() {
     const [displayValue, setDisplay] = useState("none");
     const [menuIconDisplayValue, setMenuIconDisplay] = useState("block");
     
-    const [cookies, setCookie, removeCookie] = useCookies(['auth']);
+    const [cookies, setCookie, removeCookie] = useCookies(['auth', 'myPlants', 'myReminders']);
 
     const authorised = cookies.auth
 
     const handleLogout = () => {
+        console.log("logout")
         removeCookie("auth")
+        removeCookie("myPlants")
+        removeCookie("myReminders")
         navigate("/login")
     }
     return (
@@ -115,19 +119,19 @@ function Navbar() {
             <Left>
                 <Link to="/"><Logo src="/images/logo.png" alt='logo' /></Link>
 
-                {authorised == undefined ? 
+                { authorised == undefined ? 
                     <Link to="/"><NavItem>Home</NavItem></Link> : ""
                 }
                 
                 <Link to="all-plants"><NavItem>All Plants</NavItem></Link> 
 
-                {authorised !== undefined ? 
+                { authorised !== undefined ? 
                     <Link to="my-plants"><NavItem>My Plants</NavItem></Link> : ""
                 }
                 
             </Left>
             <Right>
-                {authorised == undefined ? 
+                { authorised == undefined ? 
                     <Link to="login"><NavItem><IconLink><AccountCircleIcon/></IconLink>Log in</NavItem></Link> : 
                     <NavItem onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItem>
                 }
@@ -158,9 +162,20 @@ function Navbar() {
             </Right>
 
             <div style={{display: displayValue}}>
-                <Link to="/"><NavItemMobile>Home</NavItemMobile></Link>
-                <Link to="/all-plants"><NavItemMobile>All Plants</NavItemMobile></Link>
-                <Link to="/login"><NavItemMobile><IconLink><AccountCircleIcon/></IconLink>Log in</NavItemMobile></Link>
+                { authorised == undefined ? 
+                    <Link to="/"><NavItemMobile>Home</NavItemMobile></Link> : ""
+                }
+                
+                <Link to="all-plants"><NavItemMobile>All Plants</NavItemMobile></Link> 
+
+                { authorised !== undefined ? 
+                    <Link to="my-plants"><NavItemMobile>My Plants</NavItemMobile></Link> : ""
+                }
+
+                { authorised == undefined ? 
+                    <Link to="login"><NavItemMobile><IconLink><AccountCircleIcon/></IconLink>Log in</NavItemMobile></Link> : 
+                    <NavItemMobile onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItemMobile>
+                }
             </div>
         </Nav>
         </SmallNav>
