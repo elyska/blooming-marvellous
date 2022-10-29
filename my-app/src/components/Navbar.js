@@ -12,6 +12,17 @@ import { useCookies } from 'react-cookie';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { useNavigate} from "react-router-dom";
 
+import { Drawer, Divider, IconButton } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    root: {
+       "& .MuiDrawer-paper": {
+            padding: "75px 0 20px 30px",
+        },
+    },
+});
+
 const Nav = styled.nav`
     box-shadow: 0px 0px 8px -2px grey;
     padding: 10px 30px;
@@ -37,7 +48,7 @@ const SmallNav = styled.header`
     top: 0;
     width: 100%;
     background: white; 
-    z-index: 2;
+    z-index: 1301;
 
     @media (min-width: 545px) {
         display: none;
@@ -97,6 +108,7 @@ const IconLink = styled.div`
 
 function Navbar() {
     const navigate = useNavigate();
+    const classes = useStyles();
 
     const [displayValue, setDisplay] = useState("none");
     const [menuIconDisplayValue, setMenuIconDisplay] = useState("block");
@@ -112,6 +124,17 @@ function Navbar() {
         removeCookie("myReminders")
         navigate("/login")
     }
+
+    const [isDrawerOpened, setDrawerOpened] = useState(false);
+    const toggleDrawerStatus = () => {
+        setDrawerOpened(true)
+    }
+    const closeDrawer = () => {
+        setDrawerOpened(false)
+        setDisplay("none")
+        setMenuIconDisplay("block");
+    }
+
     return (
       <div>
         <LargeNav>
@@ -142,7 +165,7 @@ function Navbar() {
         <SmallNav>
         <Nav>
             <Left>
-                <Link to="/"><Logo src="/images/logo.png" alt='logo' /></Link>
+                <Link onClick={closeDrawer} to="/"><Logo src="/images/logo.png" alt='logo' /></Link>
             </Left>
             <Right>
                 <NavItem>
@@ -151,17 +174,26 @@ function Navbar() {
                             /* sets the visibility of mobile navbar */
                             setDisplay("block"); 
                             setMenuIconDisplay("none");
+                            toggleDrawerStatus();
                         }}/>
                         <CloseIcon style={{display: displayValue}} onClick={() => {
                             /* sets the visibility of mobile navbar */
                             setDisplay("none")
                             setMenuIconDisplay("block");
+                            closeDrawer();
                         }}/>
                     </IconLink>
                 </NavItem>
             </Right>
 
-            <div style={{display: displayValue}}>
+            <div>
+            <Drawer  className={classes.root}
+                variant="temporary"
+                open={isDrawerOpened}
+                onClose={closeDrawer}
+                anchor="top"
+                onClick={closeDrawer}
+            >
                 { authorised == undefined ? 
                     <Link to="/"><NavItemMobile>Home</NavItemMobile></Link> : ""
                 }
@@ -176,7 +208,9 @@ function Navbar() {
                     <Link to="login"><NavItemMobile><IconLink><AccountCircleIcon/></IconLink>Log in</NavItemMobile></Link> : 
                     <NavItemMobile onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItemMobile>
                 }
+            </Drawer>
             </div>
+
         </Nav>
         </SmallNav>
         </div>
