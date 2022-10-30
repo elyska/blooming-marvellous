@@ -8,6 +8,22 @@ from datetime import datetime, date
 main = Blueprint('main', __name__)
 CORS(main, supports_credentials=True)
 
+
+@main.route('/reminder-history')
+def reminderHistory():
+	username = request.args.get('username', type = str)
+	plantList = MyPlants.query.filter_by(username=username, reminder=1).all()
+
+	myReminders= ""
+
+	for e in plantList:
+		myReminders += str(e.plant_id) + ", "
+
+	print("myReminders")
+	print(myReminders[:-2])
+
+	return jsonify({'myReminders': myReminders})
+
 @main.route('/user-plants')
 def userPlants():
 	username = request.args.get('username', type = str)

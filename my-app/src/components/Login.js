@@ -10,7 +10,16 @@ import TextInput from './TextInput';
 import colours from '../colours.js';
 import { useCookies } from 'react-cookie';
 import { useNavigate} from "react-router-dom";
+import { createGlobalStyle } from 'styled-components'; 
 
+const GlobalStyle = createGlobalStyle`
+    
+    @media (min-width: 1115px) {
+        body {
+            background: url("/images/bg.png") !important;
+        }
+    }
+`;
 
 function Login() {
 	const [username, setUsername] = useState('');
@@ -51,6 +60,8 @@ function Login() {
 
     return (
         <article>
+            <GlobalStyle/>
+            
             <h1>Log in</h1>
 
             <form onSubmit={handleSubmit}>

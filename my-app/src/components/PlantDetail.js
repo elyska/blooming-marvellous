@@ -132,7 +132,9 @@ function PlantDetail() {
                         :""
                     }
                     { authorised != "" && authorised != undefined && visible ?
-                        <AddReminder isAdded={plantDetail.reminder} plantId={plantDetail.id} authorised={authorised} />
+                        <AddReminder 
+                            handleVisibilityOn={() => {}} handleVisibilityOff={() => {}}
+                            isAdded={plantDetail.reminder} plantId={plantDetail.id} authorised={authorised} />
                         : ""
                     }
                 </>
@@ -144,6 +146,14 @@ function PlantDetail() {
                 </ImageContainer>
 
                 <PlantDetailParagraph heading="Sow Instructions" text={parse(String(plantDetail.sowInstructions))}/>
+
+                { plantDetail.culinaryHints != "" ?  
+                    <PlantDetailParagraph heading="Culinary Hints" text={parse(String(plantDetail.culinaryHints))}/> : ""
+                }
+                { plantDetail.culinaryPreservation != "" ?  
+                    <PlantDetailParagraph heading="Culinary Preservation" text={parse(String(plantDetail.culinaryPreservation))}/> : ""
+                }
+                
     
             </LeftSection>
 

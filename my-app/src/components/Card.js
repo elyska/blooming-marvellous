@@ -1,7 +1,7 @@
 
 /* Card.js */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -87,10 +87,25 @@ const WaterIcon = styled.span`
 export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet, location, waterToday }) {
   const classes = useStyles();
 
+  const [visible, setVisible] = useState(waterToday);
+  //useEffect(() => { setVisible(plantDetail.added)}, [plantDetail.added] );
+
+  console.log("isSet: " + isSet)
+      console.log("visible: " + visible);
+  const handleVisibilityOn = () => {
+      setVisible(true);
+      console.log("visible: " + visible);
+  }
+
+  const handleVisibilityOff = () => {
+      setVisible(false);
+      console.log("visible: " + visible);
+  }
+
 
   return (
     <Card className={classes.root}>
-      { waterToday ? 
+      { visible ? 
         <Chip
           icon={<WaterIcon className="material-symbols-outlined">water_drop</WaterIcon>}
           label="Needs watering today"
@@ -121,7 +136,7 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
         <Right>
         <div className={classes.iconButtonsWrapper}>
         { authorised !== "" && authorised !== undefined && location == "/my-plants" ?
-            <AddReminder isAdded={isSet} plantId={plantId} authorised={authorised} />
+            <AddReminder isAdded={isSet} plantId={plantId} handleVisibilityOn={handleVisibilityOn} handleVisibilityOff={handleVisibilityOff} authorised={authorised} />
            : ""
         }
         { authorised !== "" && authorised !== undefined ?

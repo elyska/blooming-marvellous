@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
           backgroundColor: colours.green + " !important",
     },
     "& .MuiAlert-message": {
-      transform: "translateY(5px)"
+      transform: "translateY(5px)",
+      fontFamily: "Montserrat"
     }
   },
   addIcon: {

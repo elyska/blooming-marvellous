@@ -10,6 +10,16 @@ import colours from '../colours.js';
 import TextInput from './TextInput';
 import { useNavigate} from "react-router-dom";
 import { useCookies } from 'react-cookie';
+import { createGlobalStyle } from 'styled-components'; 
+
+const GlobalStyle = createGlobalStyle`
+    
+    @media (min-width: 1115px) {
+        body {
+            background: url("/images/bg.png") !important;
+        }
+    }
+`;
 
 function Register() {
 	const [username, setUsername] = useState('');
@@ -51,6 +61,8 @@ function Register() {
 	}
     return (
         <article>
+            <GlobalStyle/>
+            
             <h1>Register</h1>
 
             <form onSubmit={handleSubmit}>

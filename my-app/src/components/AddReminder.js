@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
           backgroundColor: colours.green + " !important",
     },
     "& .MuiAlert-message": {
-      transform: "translateY(5px)"
+      transform: "translateY(5px)",
+      fontFamily: "Montserrat"
     }
   },
   addIcon: {
@@ -53,7 +54,7 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 
-export default function AddReminder({ plantId, authorised, isAdded }) {
+export default function AddReminder({ plantId, authorised, isAdded, handleVisibilityOff, handleVisibilityOn  }) {
 
     const [cookies, setCookie] = useCookies(['myReminders']);
    
@@ -66,10 +67,6 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
     const [openRemoved, setOpenRemoved] = React.useState(false);
 
     const handleAddReminder = async () => {
-
-      console.log("set: " + added)
-        console.log("cookies.myReminders: " + cookies.myReminders)
-        //if (cookies.myReminders == undefined && cookies.myReminders.split(", ").includes(String(plantId))) return;
 
 	    const data = {plantId, authorised};
 
@@ -86,6 +83,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
 			console.log('response worked!')
             setAdded(true)
             setOpenAdded(true)
+            handleVisibilityOn()
 		  }
         else {
 			  console.log('response not worked!')
@@ -94,7 +92,6 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
 
     const handleRemoveReminder = async () => {
 		  const data = {plantId, authorised};
-      console.log("set: " + added)
 
       const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/remove-reminder', {
 			    method: 'POST',
@@ -109,6 +106,7 @@ export default function AddReminder({ plantId, authorised, isAdded }) {
 			console.log('response worked!')
             setAdded(false)
             setOpenRemoved(true)
+            handleVisibilityOff()
 		  }
       else {
 			  console.log('response not worked!')
