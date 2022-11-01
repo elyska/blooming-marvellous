@@ -1,3 +1,4 @@
+
 // Home.js
 
 import styled from 'styled-components';
@@ -7,7 +8,6 @@ import { Link } from "react-router-dom";
 import Button from './Button';
 
 const GlobalStyle = createGlobalStyle`
-    
     @media (min-width: 1135px) {
         body {
             background: url("/images/bg.png") !important;

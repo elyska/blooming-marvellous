@@ -23,6 +23,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// success pop up
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// shows information on hover
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
@@ -64,11 +66,13 @@ const LightTooltip = withStyles((theme) => ({
 
 
 export default function AddButton({ plantId, authorised, isAdded, handleVisibility, location, name }) {
+    const classes = useStyles();
 
     const [cookies, setCookie, removeCookie] = useCookies(['myPlants']);
    
-    const classes = useStyles();
+    // sets the state of the button - added = true -> icon = red bin, added = false -> icon = green plus
 	  const [added, setAdded] = useState(isAdded);
+    // controls the snackbar
     const [openAdded, setOpenAdded] = React.useState(false);
     const [openRemoved, setOpenRemoved] = React.useState(false);
 
@@ -77,10 +81,8 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
     const handleAddPlant = async () => {
       console.log(cookies.myPlants)
 
-      //if (cookies.myPlants == undefined && cookies.myPlants.split(", ").includes(String(plantId))) return;
-
 		  const data = {plantId, authorised};
-
+      // if plant is added, send a post request to the api
       const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/add-plant', {
 			    method: 'POST',
 			    credentials: 'include',
@@ -92,8 +94,11 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 
 		  if (response.ok){
 			    console.log('response worked!')
+          // change button state (icon)
           setAdded(true)
+          // snackbar pop up
           setOpenAdded(true);
+          // controls the visibility of the Add reminder button (hidden if plant not added)
           handleVisibility()
 		  }
       else {
@@ -105,6 +110,7 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 
 		  const data = {plantId, authorised};
 
+      // if plant is removed, send a post request to the api
       const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/remove-plant', {
 			    method: 'POST',
 			    credentials: 'include',
@@ -116,9 +122,12 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 
 		  if (response.ok){
 			console.log('response worked!')
+            // change button state (icon)
             setAdded(false)
+            // snackbar pop up
             setOpenRemoved(true);
             if (location == "/my-plants") removeCookie('myPlants');
+            // controls the visibility of the Add reminder button (hidden if plant not added)
             handleVisibility()
 		  }
       else {
@@ -130,6 +139,7 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
     
         <>
          {added ? 
+         // info on hover
           <LightTooltip TransitionComponent={Zoom} title="Remove from My Plants">
             <IconButton onClick={handleRemovePlant}>
               
@@ -149,6 +159,7 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
 
         { location != "/my-plants" ?
 
+         // success pop up
         <div  className={classes.root}>
           <Snackbar open={openAdded} autoHideDuration={6000} onClose={() => setOpenAdded(false)}>
             <Alert onClose={() => setOpenAdded(false)} severity="success">

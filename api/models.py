@@ -13,7 +13,7 @@ class Plants(db.Model):
     culinaryPreservation = db.Column(db.String(255))
     image = db.Column(db.String(255))
     url = db.Column(db.String(255))
-    wateringInterval = db.Column(db.Integer)
+    wateringInterval = db.Column(db.Integer) # in days
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +24,6 @@ class MyPlants(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255))
     plant_id = db.Column(db.Integer)
-    reminder = db.Column(db.Integer)
-    date = db.Column(db.String(255))
+    reminder = db.Column(db.Integer) # boolean
+    date = db.Column(db.String(255)) # yyyy-mm-dd
     

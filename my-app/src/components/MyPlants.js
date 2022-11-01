@@ -32,6 +32,8 @@ function MyPlants() {
     const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
     const authorised = cookies.auth
+
+    // get all user's plats
     useEffect(()=> {
 			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/my-plants?username=' + authorised, 
 			{ credentials: 'include' })
@@ -56,9 +58,6 @@ function MyPlants() {
 			
 	},[plantCookies.myPlants]);
 
-    console.log("plantCookies.myPlants")
-    console.log(plantCookies.myPlants)
-
     // if not authorised, redirect to login
     if (authorised === undefined) {
         console.log("undef")
@@ -82,10 +81,8 @@ function MyPlants() {
                 <Link to="/all-plants"><Button buttonText="Get started" /></Link>
             </> : 
 
-            <>
-                <Plants plants={plants} />
+            <Plants plants={plants} />
 
-            </>
             }
 
             

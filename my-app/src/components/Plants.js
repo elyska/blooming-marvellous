@@ -1,3 +1,4 @@
+
 // Plants.js
 
 import React from 'react';
@@ -19,13 +20,16 @@ const ListItem = styled.li`
 `;
 
 function Plants({ plants }) {
+    // displays a list of plant cards
+
     const location = useLocation().pathname;
-    console.log(location)
+    
     const [cookies, setCookie] = useCookies(['auth']);
     const authorised = cookies.auth
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
     const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
+    // to control the Add plant and Add reminder button visibility
     let plantList = []
     if(plantCookies.myPlants !== undefined) {
 		console.log('plantCookies.myPlants: ' + plantCookies.myPlants)

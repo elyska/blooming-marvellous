@@ -8,58 +8,42 @@ from datetime import datetime, date
 main = Blueprint('main', __name__)
 CORS(main, supports_credentials=True)
 
-
-@main.route('/reminder-history')
-def reminderHistory():
-	username = request.args.get('username', type = str)
-	plantList = MyPlants.query.filter_by(username=username, reminder=1).all()
-
-	myReminders= ""
-
-	for e in plantList:
-		myReminders += str(e.plant_id) + ", "
-
-	print("myReminders")
-	print(myReminders[:-2])
-
-	return jsonify({'myReminders': myReminders})
-
 @main.route('/user-plants')
 def userPlants():
+	# get the username from url arguments
 	username = request.args.get('username', type = str)
+	# find all user's plants
 	plantList = MyPlants.query.filter_by(username=username).all()
-
+	
+	# save user's plants as a string of IDs (to be saved in cookies)
 	myPlants = ""
-
 	for e in plantList:
 		myPlants += str(e.plant_id) + ", "
-
-	print(myPlants[:-2])
 
 	return jsonify({'myPlants': myPlants})
 
 
 @main.route('/user-reminders')
 def userReminders():
+	# get the username from url arguments
 	username = request.args.get('username', type = str)
+	# find all user's plants that have a reminder set
 	plantList = MyPlants.query.filter_by(username=username, reminder=1).all()
 
+	# save as a string of IDs (to be saved in cookies)
 	myReminders= ""
-
 	for e in plantList:
 		myReminders += str(e.plant_id) + ", "
-
-	print("myReminders")
-	print(myReminders[:-2])
 
 	return jsonify({'myReminders': myReminders})
 
 @main.route('/add-reminder', methods=['POST'])
 def addReminder():
 	data = request.get_json()
-	print(data)
 
 	today = date.today()
+
+	# add reminder to a plant, save current date
 	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).update(dict(reminder=1, date=today))
 	db.session.commit()
 
@@ -89,8 +73,6 @@ def addPlant():
 @main.route('/remove-plant', methods=['POST'])
 def removePlant():
 	data = request.get_json()
-	print(data)
-	
 	
 	MyPlants.query.filter_by(plant_id=data["plantId"], username=data['authorised']).delete()
 	db.session.commit()
@@ -100,8 +82,8 @@ def removePlant():
 @main.route('/register', methods=['POST'])
 def register():
 	userData = request.get_json()
-	print(userData)
 
+	# if passwords don't match, return error
 	if userData['password'] != userData['passwordAgain']:
 		return 'Passwords do not match', 403
 
@@ -111,6 +93,7 @@ def register():
 		db.session.add(newUser)
 		db.session.commit()
 	except:
+		# if username already exists, return error
 		return 'Error', 400
 
 
@@ -122,33 +105,31 @@ def login():
 	user = Users.query.filter_by(username=userData['username']).first()
 	
 	if user != None and user.password == userData['password']:
-		print("exists")
 		return 'Done', 201
 	
 	return 'Incorrect password', 403
 
 @main.route('/plants')
 def plants():
+	# get the search term from url arguments
 	searchTerm = request.args.get('search', type = str)
-	#plantList = Plants.query.all()
 
 	if searchTerm == None:
 		searchTerm = ""
 
-	print(searchTerm)
-
+	# select all plants that match the search term
 	searchTerm = "%{}%".format(searchTerm)
 	plantList = Plants.query.filter(Plants.name.like(searchTerm)).all()
 	
 	plants = []
 
 	for plant in plantList:
-		# get the first image
+		# get the first image of the plant
 		image = ""
 		if plant.image != None: 
 			image = plant.image.split(";")[0]
 			if image[-8:] == "/150/150": 
-				image = image[0:-8] + "/600/600"
+				image = image[0:-8] + "/600/600" # resize the image
 		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName, 'image': image})
 
 
@@ -179,12 +160,10 @@ def myPlants():
 			reminderAdded = datetime.strptime(plantTuple[2], '%Y-%m-%d').date() # date when reminder was added to date object
 			today = date.today()
 			delta = (today - reminderAdded).days # time difference in day (int)
-			print(delta)
 			waterToday = delta % plant.wateringInterval == 0
 
 		plants.append({'id' : plant.id, 'name' : plant.name, 'alternateName' : plant.alternateName, 'image': image, 'reminder': reminder,'waterToday': waterToday})
 
-	print(plants)
 	return jsonify({'plants': plants})
 
 @main.route('/plant/<name>')
@@ -202,26 +181,16 @@ def plantDetail(name):
 		if image[-8:] == "/150/150": 
 			image = image[0:-8] + "/600/600"
 
-	# get compatible plants
+	# get compatible plants that have an image - compatible plants become recommended plants
 	compatible = plant.compatiblePlants.split(", ")
 	compatibleWithImage = []
-	compatibleWithoutImage = ""
 	for e in compatible:
 		compatiblePlant = Plants.query.filter_by(name=e.capitalize()).first()
 		compImage = ""
+		# get an image of a compatible plant
 		if compatiblePlant:
 			compImage = compatiblePlant.image.split(";")[0]
 			compatibleWithImage.append({"name": compatiblePlant.name, "image": compImage})
-		else: 
-			if compatibleWithoutImage != "":
-				compatibleWithoutImage += ", " + e
-			else:
-				compatibleWithoutImage += e
-	print("compatibleWithImage")
-	print(compatibleWithImage)
-	print("compatibleWithoutImage")
-	print(compatibleWithoutImage)
-
 
 	plantDetail = {
 		'id' : plant.id, 
@@ -232,7 +201,6 @@ def plantDetail(name):
     	'spaceInstructions' : plant.spaceInstructions,
     	'harvestInstructions' : plant.harvestInstructions,
     	'compatibleWithImage' : compatibleWithImage,
-    	'compatibleWithoutImage' : compatibleWithoutImage,
     	'avoidInstructions' : plant.avoidInstructions,
     	'culinaryHints' : plant.culinaryHints,
     	'culinaryPreservation' : plant.culinaryPreservation,
@@ -247,7 +215,5 @@ def plantDetail(name):
 	else:
 		plantDetail["added"] = True
 		plantDetail["reminder"] = exists.reminder
-
-	print(plantDetail)
 
 	return jsonify({'plants': plantDetail})

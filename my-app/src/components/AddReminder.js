@@ -14,6 +14,7 @@ import { useCookies } from 'react-cookie';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// success pop up
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// shows information on hover
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
@@ -59,10 +61,13 @@ export default function AddReminder({ plantId, authorised, isAdded, handleVisibi
     const [cookies, setCookie] = useCookies(['myReminders']);
    
     const classes = useStyles();
+
+    // sets the state of the button - added = true -> icon = red crossed bell, added = false -> icon = green bell
 	  const [added, setAdded] = useState(isAdded);
 
     useEffect(() => { setAdded(isAdded)}, [isAdded] );
     
+    // controls the snackbar
     const [openAdded, setOpenAdded] = React.useState(false);
     const [openRemoved, setOpenRemoved] = React.useState(false);
 
@@ -80,9 +85,12 @@ export default function AddReminder({ plantId, authorised, isAdded, handleVisibi
 		})
 
 		if (response.ok){
-			console.log('response worked!')
+			      console.log('response worked!')
+            // change button state (icon)
             setAdded(true)
+            // snackbar pop up
             setOpenAdded(true)
+            // set visibility (controlled by Add plant button)
             handleVisibilityOn()
 		  }
         else {
@@ -103,9 +111,12 @@ export default function AddReminder({ plantId, authorised, isAdded, handleVisibi
 		  })
 
 		  if (response.ok){
-			console.log('response worked!')
+			      console.log('response worked!')
+            // change button state (icon)
             setAdded(false)
+            // snackbar pop up
             setOpenRemoved(true)
+            // set visibility (controlled by Add plant button)
             handleVisibilityOff()
 		  }
       else {

@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function Register() {
+    // get user input
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordAgain, setPasswordAgain] = useState('');
@@ -33,7 +34,7 @@ function Register() {
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
-        
+        // do not refresh the page
         event.preventDefault();
 		const user = {username, password, passwordAgain};
 	
@@ -53,9 +54,11 @@ function Register() {
             navigate("/my-plants");
 		}
         else if (response.status == 403) {
+            // passwords do not match
             setPasswordError(true)
         }
         else {
+            // username is taken
             setUsernameError(true)
         }
 	}

@@ -113,21 +113,24 @@ function Navbar() {
     const navigate = useNavigate();
     const classes = useStyles();
 
+    // controls the visibility of the close icon
     const [displayValue, setDisplay] = useState("none");
+    // controls the visibility of the menu icon
     const [menuIconDisplayValue, setMenuIconDisplay] = useState("block");
     
-    const [cookies, setCookie, removeCookie] = useCookies(['auth', 'myPlants', 'myReminders']);
 
+    const [cookies, setCookie, removeCookie] = useCookies(['auth', 'myPlants', 'myReminders']);
     const authorised = cookies.auth
 
+    // resets cookies on logout and redirects to the login page
     const handleLogout = () => {
-        console.log("logout")
         removeCookie("auth")
         removeCookie("myPlants")
         removeCookie("myReminders")
         navigate("/login")
     }
 
+    // controls the visibility of the navigation drawer
     const [isDrawerOpened, setDrawerOpened] = useState(false);
     const toggleDrawerStatus = () => {
         setDrawerOpened(true)
@@ -158,10 +161,7 @@ function Navbar() {
             </Left>
             <Right className={classes.rootRight}>
                 { authorised != undefined ? 
-               
-                    <NavItem onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItem>
-
-                     : 
+                    <NavItem onClick={handleLogout}><IconLink><PowerSettingsNewIcon/></IconLink>Log out</NavItem> : 
                     <Link to="login"><NavItem><IconLink><AccountCircleIcon/></IconLink>Log in</NavItem></Link>
                 }
             </Right>

@@ -13,7 +13,6 @@ import { useNavigate} from "react-router-dom";
 import { createGlobalStyle } from 'styled-components'; 
 
 const GlobalStyle = createGlobalStyle`
-    
     @media (min-width: 1115px) {
         body {
             background: url("/images/bg.png") !important;
@@ -22,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function Login() {
+    // get user input
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordError, setPasswordError] = useState(false);
@@ -30,11 +30,11 @@ function Login() {
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
+        // do not refresh the page
         event.preventDefault();
 
 		const user = {username, password};
 
-		console.log(user)
 	    const response = await fetch('https://herberttrinity-definesigma-5000.codio-box.uk/login', {
 			method: 'POST',
 			credentials: 'include',
@@ -43,9 +43,9 @@ function Login() {
 			},
 			body: JSON.stringify(user)
 		})
-		console.log(response)
 		if (response.ok){
 			console.log('response worked!')
+            // go to my plants on success
             navigate("/my-plants");
 
             const date = new Date();
@@ -54,6 +54,7 @@ function Login() {
 		}
         else {
 			console.log('response not worked!')
+            // show error messages
             setPasswordError(true)
         }
 	}

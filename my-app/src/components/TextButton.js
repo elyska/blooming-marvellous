@@ -17,6 +17,7 @@ const Btn = styled.button`
     
     &:hover {
         background: ${colours.background};
+        cursor: pointer;
     }
 `;
 

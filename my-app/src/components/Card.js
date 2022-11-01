@@ -87,25 +87,22 @@ const WaterIcon = styled.span`
 export default function PlantCard({ image, name, alternateName, plantId, authorised, isAdded, isSet, location, waterToday }) {
   const classes = useStyles();
 
+  // controls Add reminder button's visibility
   const [visible, setVisible] = useState(waterToday);
-  //useEffect(() => { setVisible(plantDetail.added)}, [plantDetail.added] );
 
-  console.log("isSet: " + isSet)
-      console.log("visible: " + visible);
   const handleVisibilityOn = () => {
       setVisible(true);
-      console.log("visible: " + visible);
   }
 
   const handleVisibilityOff = () => {
       setVisible(false);
-      console.log("visible: " + visible);
   }
 
 
   return (
     <Card className={classes.root}>
       { visible ? 
+      // information about watering
         <Chip
           icon={<WaterIcon className="material-symbols-outlined">water_drop</WaterIcon>}
           label="Needs watering today"
@@ -130,17 +127,28 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
       <CardActions>
 
         <Left>
-          <Link to={`/plant/${name}`}><TextButton buttonText="Learn More" /></Link>
+          <Link to={`/plant/${name}`}><TextButton buttonText="See More" /></Link>
         </Left>
 
         <Right>
         <div className={classes.iconButtonsWrapper}>
         { authorised !== "" && authorised !== undefined && location == "/my-plants" ?
-            <AddReminder isAdded={isSet} plantId={plantId} handleVisibilityOn={handleVisibilityOn} handleVisibilityOff={handleVisibilityOff} authorised={authorised} />
+            <AddReminder 
+              isAdded={isSet} 
+              plantId={plantId} 
+              handleVisibilityOn={handleVisibilityOn} 
+              handleVisibilityOff={handleVisibilityOff} 
+              authorised={authorised} />
            : ""
         }
         { authorised !== "" && authorised !== undefined ?
-            <AddButton name={name} location={location} handleVisibility={() => {}} isAdded={isAdded} plantId={plantId} authorised={authorised} />
+            <AddButton 
+              name={name} 
+              location={location} 
+              handleVisibility={() => {}} 
+              isAdded={isAdded} 
+              plantId={plantId} 
+              authorised={authorised} />
            : ""
         }
         </div>

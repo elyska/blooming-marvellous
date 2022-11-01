@@ -1,6 +1,8 @@
 
 /* colours.js */
 
+/* colours used across the website */
+
 const colours = {
     pink: "#F28AB9",
     pinkDarker: "#ea5f9e",

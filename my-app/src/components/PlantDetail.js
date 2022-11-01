@@ -78,9 +78,6 @@ const useStyles = makeStyles({
         },
         "& .MuiSvgIcon-root": {
           fontSize: "30px",
-          /*color: colours.pink,
-          background: "red",
-          borderRadius: "100%"*/
         },
         "& .MuiIconButton-root": {
           padding: 0,
@@ -95,6 +92,7 @@ const useStyles = makeStyles({
 });
 function PlantDetail() {  
     const classes = useStyles();
+    // get plant name from the url parameters
     let { name } = useParams();
     const [plantDetail, setPlantDetail] = useState([]);
     const [cookies, setCookie] = useCookies(['auth']);
@@ -103,6 +101,7 @@ function PlantDetail() {
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
 
     let plantList = []
+    // get plant details from api, update on name change (if user clicks on a recommended plant)
 	useEffect(()=> {
 			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/plant/' + name + "?username=" + authorised, 
 			{ credentials: 'include' })
@@ -113,12 +112,12 @@ function PlantDetail() {
 		);
 	},[name]);
 
+    // controls the visibility of the Add reminder button
     const [visible, setVisible] = useState(plantDetail.added);
     useEffect(() => { setVisible(plantDetail.added)}, [plantDetail.added] );
 
     const handleVisibility = () => {
         setVisible(!visible);
-        console.log(visible);
     }
 
     return (
@@ -154,7 +153,6 @@ function PlantDetail() {
                     <PlantDetailParagraph heading="Culinary Preservation" text={parse(String(plantDetail.culinaryPreservation))}/> : ""
                 }
                 
-    
             </LeftSection>
 
             
@@ -171,7 +169,6 @@ function PlantDetail() {
                     <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>: ""
                 }
                 
-
                 {plantDetail.compatibleWithImage !== undefined && plantDetail.compatibleWithImage.length !==0 ? 
                     <Heading2>Recommended Plants</Heading2>: ""
                 }
@@ -180,12 +177,9 @@ function PlantDetail() {
                         recommended => <RecommendedPlant plant={recommended}/>
                     ) : ""}
                 </RecommendedContainer>
-                
-                
-
+               
             </RightSection>
             
-        
         </Article>
     );
 }

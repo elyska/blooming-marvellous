@@ -22,10 +22,13 @@ const WaterIcon = styled.span`
 
 function PlantDetailParagraph({ heading, text }) {
     const iconStyles = { fontSize: "30px", transform: "translateY(8px)", marginRight: 10 }
+    // different icons for different headings
     const icons = {
-          'Space Instructions': <><LocalFloristIcon style={iconStyles}/>
-                                    <HeightIcon style={{ rotate: "90deg", transform: "translateY(8px)"}}/>
-                                <LocalFloristIcon style={iconStyles}/></>,
+          'Space Instructions': <>
+                                    <LocalFloristIcon style={iconStyles}/>
+                                        <HeightIcon style={{ rotate: "90deg", transform: "translateY(8px)"}}/>
+                                    <LocalFloristIcon style={iconStyles}/>
+                                </>,
           'Avoid': <BlockIcon style={iconStyles}/>,
           'Watering': <WaterIcon className="material-symbols-outlined">water_drop</WaterIcon>
     }

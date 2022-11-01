@@ -49,9 +49,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+	// sets routes for the website
 
     return (
-	
 	<div className="App">
 	<GlobalStyle />
 	<Navbar/>
