@@ -13,7 +13,6 @@ import { useCookies } from 'react-cookie';
 import { createGlobalStyle } from 'styled-components'; 
 
 const GlobalStyle = createGlobalStyle`
-    
     @media (min-width: 1115px) {
         body {
             background: url("/images/bg.png") !important;
@@ -25,11 +24,13 @@ function Register() {
     // get user input
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+    
+    // controls visibility of error messages
 	const [passwordAgain, setPasswordAgain] = useState('');
 	const [passwordError, setPasswordError] = useState(false);
 	const [usernameError, setUsernameError] = useState(false);
-    const [cookies, setCookie] = useCookies(['auth']);
 
+    const [cookies, setCookie] = useCookies(['auth']);
 
     const navigate = useNavigate();
 

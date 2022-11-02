@@ -45,7 +45,6 @@ const LargeNav = styled.header`
     }
 `;
 const SmallNav = styled.header`
-    
     position: fixed;
     top: 0;
     width: 100%;

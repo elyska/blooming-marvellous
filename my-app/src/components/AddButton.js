@@ -127,7 +127,8 @@ export default function AddButton({ plantId, authorised, isAdded, handleVisibili
             // snackbar pop up
             setOpenRemoved(true);
             if (location == "/my-plants") removeCookie('myPlants');
-            // controls the visibility of the Add reminder button (hidden if plant not added)
+            // controls the visibility of the Add reminder button 
+            // (hidden if plant not added - applies only for plants detail page)
             handleVisibility()
 		  }
       else {

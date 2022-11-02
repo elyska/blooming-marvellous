@@ -98,7 +98,6 @@ export default function PlantCard({ image, name, alternateName, plantId, authori
       setVisible(false);
   }
 
-
   return (
     <Card className={classes.root}>
       { visible ? 

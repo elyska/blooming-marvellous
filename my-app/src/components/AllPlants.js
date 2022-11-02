@@ -37,9 +37,7 @@ function AllPlants() {
 				})
 				);
 			}
-	},[plantCookies.myPlants]);
-
-	
+	},[plantCookies.myPlants]); // call every time plantCookies.myPlants changes
 
 	const handleChange = event => {
 		// get all plants that match the search term

@@ -34,12 +34,10 @@ const GlobalStyle = createGlobalStyle`
 		margin: auto;
 		text-align: center;
 	}
-
 	h1, h2, h3 {
 		color: ${colours.pink};
 		font-family: "Montserrat Bold";
 	}
-
 	h1 {
         font-size: 4rem;
 		@media (max-width: 700px) {
@@ -50,22 +48,19 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
 	// sets routes for the website
-
     return (
 	<div className="App">
-	<GlobalStyle />
-	<Navbar/>
-      <Routes>
-        <Route path="/" element={ <Home/> } />
-        <Route path="all-plants" element={ <AllPlants/> } />
-        <Route path="login" element={ <Login/> } />
-        <Route path="register" element={ <Register/> } />
-        <Route path="plant/:name" exact element={ <PlantDetail/> } />
-        <Route path="my-plants" exact element={ <MyPlants/> } />
-      </Routes>
+		<GlobalStyle />
+		<Navbar/>
+      	<Routes>
+        	<Route path="/" element={ <Home/> } />
+        	<Route path="all-plants" element={ <AllPlants/> } />
+        	<Route path="login" element={ <Login/> } />
+        	<Route path="register" element={ <Register/> } />
+        	<Route path="plant/:name" exact element={ <PlantDetail/> } />
+        	<Route path="my-plants" exact element={ <MyPlants/> } />
+      	</Routes>
     </div>
-
     );
-
 }
 export default App;

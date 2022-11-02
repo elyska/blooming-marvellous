@@ -43,16 +43,17 @@ const useStyles = makeStyles({
 
 function SearchBar({handleInputChange}) {  
     const classes = useStyles();
-
-	
     return (
             <TextField onChange={handleInputChange}
-                InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon style={{ color: colours.typeface }} /></InputAdornment>),disableUnderline: true,className: classes.input }}
+                InputProps={{ endAdornment: (<InputAdornment position="end">
+                                                    <SearchIcon style={{ color: colours.typeface }} />
+                                             </InputAdornment>),
+                              disableUnderline: true,
+                              className: classes.input }}
                 placeholder="Browse plants"
                 className={classes.searchField} 
                 variant="filled" 
             />
-
     );
 }
 

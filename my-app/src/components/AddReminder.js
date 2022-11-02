@@ -144,8 +144,6 @@ export default function AddReminder({ plantId, authorised, isAdded, handleVisibi
             </IconButton>
           </LightTooltip>
         }
-
-
         <div  className={classes.root}>
           <Snackbar open={openAdded} autoHideDuration={6000} onClose={() => setOpenAdded(false)}>
             <Alert onClose={() => setOpenAdded(false)} severity="success">
@@ -159,8 +157,6 @@ export default function AddReminder({ plantId, authorised, isAdded, handleVisibi
           </Snackbar> 
         </div> 
         
-
-
         </>   
   );
 }

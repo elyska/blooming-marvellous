@@ -122,12 +122,13 @@ function PlantDetail() {
 
     return (
         <Article>
-            
             <LeftSection className={classes.root}>
             
                 <>
                     { authorised != "" && authorised != undefined ?
-                        <AddButton name={plantDetail.name} location="" handleVisibility={handleVisibility} isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
+                        <AddButton name={plantDetail.name}
+                            location="" handleVisibility={handleVisibility} 
+                            isAdded={plantDetail.added} plantId={plantDetail.id} authorised={authorised} />
                         :""
                     }
                     { authorised != "" && authorised != undefined && visible ?
@@ -137,25 +138,21 @@ function PlantDetail() {
                         : ""
                     }
                 </>
-
                 <Heading1>{plantDetail.name}</Heading1>
-                <AlternateName>{ plantDetail.alternateName !== "" ? "Also called " +parse(String(plantDetail.alternateName)) : ""}</AlternateName>
+                <AlternateName>
+                    { plantDetail.alternateName !== "" ? "Also called " +parse(String(plantDetail.alternateName)) : ""}
+                </AlternateName>
                 <ImageContainer>
                     <Image src={plantDetail.image} alt={plantDetail.name} />
                 </ImageContainer>
-
                 <PlantDetailParagraph heading="Sow Instructions" text={parse(String(plantDetail.sowInstructions))}/>
-
                 { plantDetail.culinaryHints != "" ?  
                     <PlantDetailParagraph heading="Culinary Hints" text={parse(String(plantDetail.culinaryHints))}/> : ""
                 }
                 { plantDetail.culinaryPreservation != "" ?  
                     <PlantDetailParagraph heading="Culinary Preservation" text={parse(String(plantDetail.culinaryPreservation))}/> : ""
                 }
-                
             </LeftSection>
-
-            
             <RightSection>
                 <PlantDetailParagraph heading="Space Instructions" text={parse(String(plantDetail.spaceInstructions))}/>
 
@@ -163,12 +160,10 @@ function PlantDetail() {
                     <PlantDetailParagraph heading="Watering" text={`once a day` }/>:
                     <PlantDetailParagraph heading="Watering" text={`once in ${plantDetail.wateringInterval } days` }/>
                 }
-
                 <PlantDetailParagraph heading="Harvest Instructions" text={parse(String(plantDetail.harvestInstructions))}/>
                 { plantDetail.avoidInstructions ?  
                     <PlantDetailParagraph heading="Avoid" text={plantDetail.avoidInstructions}/>: ""
                 }
-                
                 {plantDetail.compatibleWithImage !== undefined && plantDetail.compatibleWithImage.length !==0 ? 
                     <Heading2>Recommended Plants</Heading2>: ""
                 }
@@ -177,9 +172,7 @@ function PlantDetail() {
                         recommended => <RecommendedPlant plant={recommended}/>
                     ) : ""}
                 </RecommendedContainer>
-               
             </RightSection>
-            
         </Article>
     );
 }

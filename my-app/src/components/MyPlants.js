@@ -33,7 +33,7 @@ function MyPlants() {
 
     const authorised = cookies.auth
 
-    // get all user's plats
+    // get all user's plants
     useEffect(()=> {
 			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/my-plants?username=' + authorised, 
 			{ credentials: 'include' })
@@ -56,11 +56,10 @@ function MyPlants() {
 				})
 				);
 			
-	},[plantCookies.myPlants]);
+	},[plantCookies.myPlants]); // call every time plantCookies.myPlants changes
 
     // if not authorised, redirect to login
     if (authorised === undefined) {
-        console.log("undef")
         window.location.pathname = '/login';
     }
     else {
@@ -68,9 +67,7 @@ function MyPlants() {
     return (
         <article>
             <Heading1>My Plants </Heading1>  
-
             { plants === undefined || plants.length === 0 ?
-            
             <>
                 <Paragraph>You haven't added any plants.</Paragraph> 
 
@@ -82,17 +79,10 @@ function MyPlants() {
             </> : 
 
             <Plants plants={plants} />
-
             }
-
-            
-
         </article>
     ); 
     }
-
-    
-    
 }
 
 

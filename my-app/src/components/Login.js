@@ -24,7 +24,9 @@ function Login() {
     // get user input
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+    // controls visibility of error messages
 	const [passwordError, setPasswordError] = useState(false);
+
     const [cookies, setCookie] = useCookies(['auth']);
 
     const navigate = useNavigate();
@@ -76,7 +78,8 @@ function Login() {
                     handleInputChange={e => setPassword(e.target.value)}  
                     inputId="password" inputLabel="Password" inputType="password" />
                
-                <SimpleLink destinationPath="/register" linkText="Don't have an account yet? Register." /><br /><br />
+                <SimpleLink destinationPath="/register" linkText="Don't have an account yet? Register." />
+                <br /><br />
 
                 <Button type="submit" buttonText="Log in" />
             </form>

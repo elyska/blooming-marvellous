@@ -26,4 +26,3 @@ class MyPlants(db.Model):
     plant_id = db.Column(db.Integer)
     reminder = db.Column(db.Integer) # boolean
     date = db.Column(db.String(255)) # yyyy-mm-dd
-    
