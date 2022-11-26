@@ -23,32 +23,21 @@ function Plants({ plants }) {
     // displays a list of plant cards
 
     const location = useLocation().pathname;
-    
     const [cookies, setCookie] = useCookies(['auth']);
-    const authorised = cookies.auth
+    const authorised = cookies.auth;
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
     const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
-    // to control the Add plant and Add reminder button visibility
+    // to control the Add plant and Add reminder button visibility based on cookies
     let plantList = []
-    if(plantCookies.myPlants !== undefined) {
-		console.log('plantCookies.myPlants: ' + plantCookies.myPlants)
-        plantList = plantCookies.myPlants.split(", ")
-    }
+    if(plantCookies.myPlants !== undefined) plantList = plantCookies.myPlants.split(", ");
     let reminderList = []
-    if(reminderCookies.myReminders !== undefined) {
-		console.log('reminderCookies.myReminders: ' + reminderCookies.myReminders)
-        reminderList = reminderCookies.myReminders.split(", ")
-    }
-    
+    if(reminderCookies.myReminders !== undefined) reminderList = reminderCookies.myReminders.split(", ");
     return (
         <List>
             {plants.map(plant => {
-
                 let waterToday = false
-
                 if (plant.waterToday != undefined) waterToday = plant.waterToday
-                console.log("waterToday: " + waterToday)
                 
 				return (
 					<ListItem key={plant.id}>

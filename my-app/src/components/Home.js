@@ -11,6 +11,8 @@ const GlobalStyle = createGlobalStyle`
     @media (min-width: 1135px) {
         body {
             background: url("/images/bg.png") !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
         }
     }
 `;

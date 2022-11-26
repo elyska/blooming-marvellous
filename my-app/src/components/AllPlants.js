@@ -6,11 +6,9 @@ import SearchBar from './SearchBar';
 import { useCookies } from 'react-cookie';
 
 function AllPlants() {
-
     const [plants, setPlants] = useState([]);
     const [cookies, setCookie] = useCookies(['auth']);
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
-    const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
 
 	useEffect(()=> {
 		// get all plants
@@ -20,20 +18,12 @@ function AllPlants() {
 			.then(data => {setPlants(data.plants);
 			})
 			);
-
-		// if user is logged in, get their selected plants and reminder settings
+		// if user is logged in, get their selected plants, save them in cookies
 			if (cookies.auth !== "" && cookies !== undefined) {
 				fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-plants?username=' + cookies.auth, 
 				{ credentials: 'include' })
 				.then(response =>response.json()
 				.then(data => {setPlantCookie('myPlants', data.myPlants);
-				})
-				);
-
-				fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-reminders?username=' + cookies.auth, 
-				{ credentials: 'include' })
-				.then(response =>response.json()
-				.then(data => {setReminderCookie('myReminders', data.myReminders);
 				})
 				);
 			}
@@ -47,6 +37,13 @@ function AllPlants() {
 			.then(data => {setPlants(data.plants);
 			})
 		);
+		// update cookies
+		if (cookies.auth !== "" && cookies !== undefined) {
+				fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-plants?username=' + cookies.auth, 
+				{ credentials: 'include' })
+				.then(response =>response.json()
+				.then(data => {setPlantCookie('myPlants', data.myPlants);
+				}));}
   	};
     return (
         <article>

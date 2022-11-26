@@ -30,55 +30,40 @@ function MyPlants() {
     const [plants, setPlants] = useState([]);
     const [plantCookies, setPlantCookie] = useCookies(['myPlants']);
     const [reminderCookies, setReminderCookie] = useCookies(['myReminders']);
-
     const authorised = cookies.auth
-
     // get all user's plants
     useEffect(()=> {
 			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/my-plants?username=' + authorised, 
 			{ credentials: 'include' })
 			.then(response =>response.json()
 			.then(data => {setPlants(data.plants);
-			})
-			);
-
+			}));
+            // if user is logged in, get their selected plants and reminder settings
             fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-plants?username=' + cookies.auth, 
 				{ credentials: 'include' })
 				.then(response =>response.json()
 				.then(data => {setPlantCookie('myPlants', data.myPlants);
-				})
-				);
-
+				}));
 			fetch('https://herberttrinity-definesigma-5000.codio-box.uk/user-reminders?username=' + cookies.auth, 
 				{ credentials: 'include' })
 				.then(response =>response.json()
 				.then(data => {setReminderCookie('myReminders', data.myReminders);
-				})
-				);
-			
+				}));
 	},[plantCookies.myPlants]); // call every time plantCookies.myPlants changes
 
     // if not authorised, redirect to login
-    if (authorised === undefined) {
-        window.location.pathname = '/login';
-    }
+    if (authorised === undefined)  window.location.pathname = '/login';
     else {
-
     return (
         <article>
             <Heading1>My Plants </Heading1>  
             { plants === undefined || plants.length === 0 ?
             <>
                 <Paragraph>You haven't added any plants.</Paragraph> 
-
-                <figure>
-                    <Image src="/images/empty-pot.png" alt="No plants" />
-                </figure>
-
+                <figure><Image src="/images/empty-pot.png" alt="No plants" /></figure>
                 <Link to="/all-plants"><Button buttonText="Get started" /></Link>
             </> : 
-
-            <Plants plants={plants} />
+                <Plants plants={plants} />
             }
         </article>
     ); 
