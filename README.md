@@ -8,6 +8,19 @@ Blooming Marvellous is a plant care website designed for gardeners. It features 
 - turn on/off reminders to water their plants.
 
 
+<img src="/images/home.png">
+
+<img src="/images/login.png">
+
+<img src="/images/myplants1.png">
+
+<img src="/images/myplants2.png">
+
+<img src="/images/search.png">
+
+<img src="/images/detail.png">
+
+
 # Run frontend
 
 `cd my-app`
